@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Cursor 설정 및 인덱싱 캐시
+.cursor/
+.cursorignore
+.cursorindexingignore
