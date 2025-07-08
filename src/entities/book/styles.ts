@@ -17,6 +17,7 @@ export const Card = styled.div`
 export const CardHeader = styled.div`
   display: flex;
   padding: 1.25rem;
+  gap: 1.3rem;
   border-bottom: 1px solid ${({ theme }) => theme.colors.grayLight};
 `
 
@@ -25,7 +26,6 @@ export const BookCover = styled.div`
   height: 7.5rem;
   background: ${({ theme }) => theme.colors.grayLight};
   border-radius: 0.375rem;
-  margin-right: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -59,35 +59,14 @@ export const Publisher = styled.p`
   margin: 0 0 0.5rem 0;
 `
 
-export const Category = styled.span`
-  background: ${({ theme }) => theme.colors.primaryLighter};
-  color: ${({ theme }) => theme.colors.primaryDark};
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.75rem;
-  font-size: 0.75rem;
-  font-weight: 500;
-`
-
 export const CardContent = styled.div`
   padding: 1.25rem;
-`
-
-export const Description = styled.p`
-  font-size: 0.9rem;
-  line-height: 1.5;
-  color: ${({ theme }) => theme.colors.text};
-  margin: 0 0 1rem 0;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 `
 
 export const BookDetails = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
   font-size: 0.85rem;
   color: ${({ theme }) => theme.colors.gray};
 `
