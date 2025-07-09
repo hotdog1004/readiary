@@ -1,0 +1,43 @@
+import { FC } from 'react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Step3FormValues } from '../types/formTypes'
+import { step3Schema } from '../schemas/stepSchemas'
+
+interface Step3Props {
+  defaultValues: Step3FormValues
+  rating: number // 상위에서 전달받음 (별점)
+  onNext: (data: Step3FormValues) => void
+  onBack: () => void
+}
+
+export const Step3: FC<Step3Props> = ({ defaultValues, rating, onNext, onBack }) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Step3FormValues>({
+    resolver: zodResolver(step3Schema(rating)),
+    defaultValues,
+    mode: 'onTouched',
+  })
+
+  return (
+    <form onSubmit={handleSubmit(onNext)}>
+      <div>
+        <label>독후감</label>
+        <textarea {...register('review')} placeholder="독후감을 입력하세요" rows={6} />
+        {errors.review && <span>{errors.review.message}</span>}
+        {(rating === 1 || rating === 5) && (
+          <div style={{ color: '#888', fontSize: '0.9em' }}>
+            ※ 별점이 1점 또는 5점일 때는 100자 이상 입력해야 합니다.
+          </div>
+        )}
+      </div>
+      <button type="button" onClick={onBack}>
+        이전
+      </button>
+      <button type="submit">다음</button>
+    </form>
+  )
+}
