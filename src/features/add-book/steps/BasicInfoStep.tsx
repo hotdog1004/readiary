@@ -1,13 +1,13 @@
 import { FC } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Step1FormValues } from '../types/formTypes'
-import { step1Schema } from '../schemas/stepSchemas'
+import { BasicInfoFormValues } from '../types/formTypes'
+import { BasicInfoSchema } from '../schemas/stepSchemas'
 import { BOOK_STATUS_LABELS, BOOK_STATUS_VALUES, BookStatus } from '@/shared/types/book'
 
-interface Step1Props {
-  defaultValues: Step1FormValues
-  onNext: (data: Step1FormValues) => void
+interface BasicInfoProps {
+  defaultValues: BasicInfoFormValues
+  onNext: (data: BasicInfoFormValues) => void
 }
 
 const statusOptions = BOOK_STATUS_VALUES.map((value) => ({
@@ -15,14 +15,14 @@ const statusOptions = BOOK_STATUS_VALUES.map((value) => ({
   label: BOOK_STATUS_LABELS[value],
 }))
 
-export const Step1: FC<Step1Props> = ({ defaultValues, onNext }) => {
+export const BasicInfo: FC<BasicInfoProps> = ({ defaultValues, onNext }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
-  } = useForm<Step1FormValues>({
-    resolver: zodResolver(step1Schema),
+  } = useForm<BasicInfoFormValues>({
+    resolver: zodResolver(BasicInfoSchema),
     defaultValues,
     mode: 'onTouched',
   })

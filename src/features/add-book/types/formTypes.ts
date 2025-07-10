@@ -1,6 +1,6 @@
 import { BookStatus } from '@/shared/types/book'
 
-export type Step1FormValues = {
+export type BasicInfoFormValues = {
   title: string
   author: string
   totalPages: number // 도서 전체 페이지 수
@@ -10,17 +10,17 @@ export type Step1FormValues = {
   endDate?: string
 }
 
-export type Step2FormValues = {
+export type RatingFormValues = {
   isRecommended: boolean // 추천 여부
   rating: number // 별점 (0~5, 0.5 단위)
 }
-export type Step3FormValues = {
+export type ReviewFormValues = {
   review?: string
 }
-export type Step4FormValues = {
+export type QuoteFormValues = {
   quotePage: number // 인용구 페이지
   quoteText: string // 인용구 텍스트
 }
-export type Step5FormValues = {
+export type VisibilityFormValues = {
   isPublic: boolean // 공개 여부
 }

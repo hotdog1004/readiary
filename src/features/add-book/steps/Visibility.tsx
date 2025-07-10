@@ -1,22 +1,22 @@
 import { FC } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Step5FormValues } from '../types/formTypes'
-import { step5Schema } from '../schemas/stepSchemas'
+import { VisibilityFormValues } from '../types/formTypes'
+import { VisibilitySchema } from '../schemas/stepSchemas'
 
-interface Step5Props {
-  defaultValues: Step5FormValues
-  onNext: (data: Step5FormValues) => void
+interface VisibilityProps {
+  defaultValues: VisibilityFormValues
+  onNext: (data: VisibilityFormValues) => void
   onBack: () => void
 }
 
-export const Step5: FC<Step5Props> = ({ defaultValues, onNext, onBack }) => {
+export const Visibility: FC<VisibilityProps> = ({ defaultValues, onNext, onBack }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Step5FormValues>({
-    resolver: zodResolver(step5Schema),
+  } = useForm<VisibilityFormValues>({
+    resolver: zodResolver(VisibilitySchema),
     defaultValues,
     mode: 'onTouched',
   })

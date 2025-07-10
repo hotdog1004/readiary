@@ -1,23 +1,23 @@
 import { FC } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Step3FormValues } from '../types/formTypes'
-import { step3Schema } from '../schemas/stepSchemas'
+import { ReviewFormValues } from '../types/formTypes'
+import { ReviewSchema } from '../schemas/stepSchemas'
 
-interface Step3Props {
-  defaultValues: Step3FormValues
+interface ReviewProps {
+  defaultValues: ReviewFormValues
   rating: number // 상위에서 전달받음 (별점)
-  onNext: (data: Step3FormValues) => void
+  onNext: (data: ReviewFormValues) => void
   onBack: () => void
 }
 
-export const Step3: FC<Step3Props> = ({ defaultValues, rating, onNext, onBack }) => {
+export const Review: FC<ReviewProps> = ({ defaultValues, rating, onNext, onBack }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Step3FormValues>({
-    resolver: zodResolver(step3Schema(rating)),
+  } = useForm<ReviewFormValues>({
+    resolver: zodResolver(ReviewSchema(rating)),
     defaultValues,
     mode: 'onTouched',
   })

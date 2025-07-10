@@ -1,23 +1,23 @@
 import { FC } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Step4FormValues } from '../types/formTypes'
-import { step4Schema } from '../schemas/stepSchemas'
+import { QuoteFormValues } from '../types/formTypes'
+import { QuoteSchema } from '../schemas/stepSchemas'
 
-interface Step4Props {
-  defaultValues: Step4FormValues
+interface QuoteProps {
+  defaultValues: QuoteFormValues
   totalPages: number // 도서 전체 페이지 수 (상위에서 전달)
-  onNext: (data: Step4FormValues) => void
+  onNext: (data: QuoteFormValues) => void
   onBack: () => void
 }
 
-export const Step4: FC<Step4Props> = ({ defaultValues, totalPages, onNext, onBack }) => {
+export const Quote: FC<QuoteProps> = ({ defaultValues, totalPages, onNext, onBack }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Step4FormValues>({
-    resolver: zodResolver(step4Schema(totalPages)),
+  } = useForm<QuoteFormValues>({
+    resolver: zodResolver(QuoteSchema(totalPages)),
     defaultValues,
     mode: 'onTouched',
   })

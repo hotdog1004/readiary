@@ -1,24 +1,24 @@
 import { FC } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Step2FormValues } from '../types/formTypes'
-import { step2Schema } from '../schemas/stepSchemas'
+import { RatingFormValues } from '../types/formTypes'
+import { RatingSchema } from '../schemas/stepSchemas'
 
-interface Step2Props {
-  defaultValues: Step2FormValues
-  onNext: (data: Step2FormValues) => void
+interface RatingProps {
+  defaultValues: RatingFormValues
+  onNext: (data: RatingFormValues) => void
   onBack: () => void
 }
 
-export const Step2: FC<Step2Props> = ({ defaultValues, onNext, onBack }) => {
+export const Rating: FC<RatingProps> = ({ defaultValues, onNext, onBack }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue,
     watch,
-  } = useForm<Step2FormValues>({
-    resolver: zodResolver(step2Schema),
+  } = useForm<RatingFormValues>({
+    resolver: zodResolver(RatingSchema),
     defaultValues,
     mode: 'onTouched',
   })

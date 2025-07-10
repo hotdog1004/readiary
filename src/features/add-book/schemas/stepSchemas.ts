@@ -1,7 +1,7 @@
 import { BOOK_STATUS_VALUES } from '@/shared/types/book'
 import z from 'zod'
 // TODO: validation 메세지 정리, 구조 개선
-export const step1Schema = z
+export const BasicInfoSchema = z
   .object({
     title: z.string().min(1, '제목은 필수입니다.'),
     author: z.string().min(1, '저자는 필수입니다.'),
@@ -64,12 +64,12 @@ export const step1Schema = z
     }
   })
 
-export const step2Schema = z.object({
+export const RatingSchema = z.object({
   isRecommended: z.boolean(),
   rating: z.number(),
 })
 
-export const step3Schema = (rating: number) =>
+export const ReviewSchema = (rating: number) =>
   z
     .object({
       review: z.string().optional(),
@@ -86,7 +86,7 @@ export const step3Schema = (rating: number) =>
       }
     })
 
-export const step4Schema = (totalPages: number) =>
+export const QuoteSchema = (totalPages: number) =>
   z
     .object({
       quotePage: z.number(),
@@ -102,6 +102,6 @@ export const step4Schema = (totalPages: number) =>
       }
     })
 
-export const step5Schema = z.object({
+export const VisibilitySchema = z.object({
   isPublic: z.boolean(),
 })
