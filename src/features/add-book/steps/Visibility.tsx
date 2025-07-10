@@ -1,28 +1,41 @@
-import { FC } from 'react'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { VisibilityFormValues } from '../types/formTypes'
 import { VisibilitySchema } from '../schemas'
 
 interface VisibilityProps {
-  defaultValues: VisibilityFormValues
-  onNext: (data: VisibilityFormValues) => void
+  initialValues?: VisibilityFormValues
+  onComplete: (data: VisibilityFormValues) => void
   onBack: () => void
 }
 
-export const Visibility: FC<VisibilityProps> = ({ defaultValues, onNext, onBack }) => {
+export const Visibility = ({ initialValues, onComplete, onBack }: VisibilityProps) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<VisibilityFormValues>({
     resolver: zodResolver(VisibilitySchema),
-    defaultValues,
+    defaultValues: initialValues || {
+      isPublic: true,
+    },
     mode: 'onTouched',
   })
 
+  useEffect(() => {
+    if (initialValues) {
+      reset(initialValues)
+    }
+  }, [initialValues, reset])
+
+  const onSubmit = (data: VisibilityFormValues) => {
+    onComplete(data)
+  }
+
   return (
-    <form onSubmit={handleSubmit(onNext)}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div>
         <label>
           <input type="checkbox" {...register('isPublic')} />

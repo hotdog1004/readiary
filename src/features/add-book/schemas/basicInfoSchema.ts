@@ -25,6 +25,7 @@ export function validateStatusRules(data: any, ctx: z.RefinementCtx) {
       })
     }
   }
+  // TODO: 유효성 검증 미통과 시 사용자가 값을 지울 수 있도록 ui 구현 필요
   if (data.status === 'on_hold' && data.endDate) {
     ctx.addIssue({
       path: ['endDate'],
@@ -42,7 +43,7 @@ export function validateDateRules(data: any, ctx: z.RefinementCtx) {
       code: 'custom',
     })
   }
-  if (data.startDate && data.publishedDate && data.startDate > data.publishedDate) {
+  if (data.startDate && data.publishedDate && data.startDate < data.publishedDate) {
     ctx.addIssue({
       path: ['startDate'],
       message: '시작일은 도서 출판일 이후여야 합니다.',
@@ -55,8 +56,8 @@ export const BasicInfoSchema = z
   .object({
     title: z.string().min(1, '제목은 필수입니다.'),
     author: z.string().min(1, '저자는 필수입니다.'),
-    totalPages: z.number().min(1, '도서 전체 페이지 수는 1 이상이어야 합니다.'), // 추가
-    publishedDate: z.string(), // 출판일 필수
+    totalPages: z.number().min(1, '도서 전체 페이지 수는 1 이상이어야 합니다.'),
+    publishedDate: z.string(),
     status: z.enum(BOOK_STATUS_VALUES),
     startDate: z.string().optional(),
     endDate: z.string().optional(),

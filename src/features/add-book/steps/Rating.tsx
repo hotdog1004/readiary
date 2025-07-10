@@ -1,33 +1,44 @@
-import { FC } from 'react'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { RatingFormValues } from '../types/formTypes'
 import { RatingSchema } from '../schemas'
 
 interface RatingProps {
-  defaultValues: RatingFormValues
-  onNext: (data: RatingFormValues) => void
+  initialValues?: RatingFormValues
+  onComplete: (data: RatingFormValues) => void
   onBack: () => void
 }
 
-export const Rating: FC<RatingProps> = ({ defaultValues, onNext, onBack }) => {
+export const Rating = ({ initialValues, onComplete, onBack }: RatingProps) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-    setValue,
-    watch,
+    reset,
   } = useForm<RatingFormValues>({
     resolver: zodResolver(RatingSchema),
-    defaultValues,
+    defaultValues: initialValues || {
+      isRecommended: false,
+      rating: 0,
+    },
     mode: 'onTouched',
   })
 
-  // 별점 입력을 위한 커스텀 UI 예시 (간단한 select, 실제로는 별점 컴포넌트로 대체 가능)
+  useEffect(() => {
+    if (initialValues) {
+      reset(initialValues)
+    }
+  }, [initialValues, reset])
+
   const ratingOptions = Array.from({ length: 11 }, (_, i) => i * 0.5)
 
+  const onSubmit = (data: RatingFormValues) => {
+    onComplete(data)
+  }
+
   return (
-    <form onSubmit={handleSubmit(onNext)}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div>
         <label>도서 추천 여부</label>
         <input type="checkbox" {...register('isRecommended')} />

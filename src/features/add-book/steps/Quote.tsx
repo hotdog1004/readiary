@@ -1,29 +1,43 @@
-import { FC } from 'react'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { QuoteFormValues } from '../types/formTypes'
 import { QuoteSchema } from '../schemas'
 
 interface QuoteProps {
-  defaultValues: QuoteFormValues
+  initialValues?: QuoteFormValues
   totalPages: number // 도서 전체 페이지 수 (상위에서 전달)
-  onNext: (data: QuoteFormValues) => void
+  onComplete: (data: QuoteFormValues) => void // 결과만 상위에 전달
   onBack: () => void
 }
 
-export const Quote: FC<QuoteProps> = ({ defaultValues, totalPages, onNext, onBack }) => {
+export const Quote = ({ initialValues, totalPages, onComplete, onBack }: QuoteProps) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<QuoteFormValues>({
     resolver: zodResolver(QuoteSchema(totalPages)),
-    defaultValues,
+    defaultValues: initialValues || {
+      quotePage: 0,
+      quoteText: '',
+    },
     mode: 'onTouched',
   })
 
+  useEffect(() => {
+    if (initialValues) {
+      reset(initialValues)
+    }
+  }, [initialValues, reset])
+
+  const onSubmit = (data: QuoteFormValues) => {
+    onComplete(data)
+  }
+
   return (
-    <form onSubmit={handleSubmit(onNext)}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div>
         <label>인용구 페이지 번호</label>
         <input

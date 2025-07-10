@@ -24,3 +24,9 @@ export type QuoteFormValues = {
 export type VisibilityFormValues = {
   isPublic: boolean // 공개 여부
 }
+// 모든 Step의 값을 합친 타입
+export type AllFormValues = BasicInfoFormValues &
+  RatingFormValues &
+  ReviewFormValues &
+  QuoteFormValues &
+  VisibilityFormValues

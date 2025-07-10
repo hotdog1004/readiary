@@ -6,109 +6,80 @@ import {
   ReviewFormValues,
   QuoteFormValues,
   VisibilityFormValues,
+  AllFormValues,
 } from './types/formTypes'
 
 import { Step, stepOrder } from './types/step'
 import { BasicInfo, Quote, Rating, Review, Visibility } from './steps'
 
 const AddBookForm = () => {
+  // 1. 현재 Step만 관리
   const [step, setStep] = useState<Step>(Step.BasicInfo)
   const currentIndex = stepOrder.indexOf(step)
 
-  const [BasicInfoValues, setBasicInfoValues] = useState<BasicInfoFormValues>({
-    title: '',
-    author: '',
-    status: 'want_to_read',
-    startDate: undefined,
-    endDate: undefined,
-    totalPages: 1,
-    publishedDate: '',
-  })
-  const [RatingValues, setRatingValues] = useState<RatingFormValues>({
-    isRecommended: false,
-    rating: 0,
-  })
-  const [ReviewValues, setReviewValues] = useState<ReviewFormValues>({
-    review: '',
-  })
-  const [QuoteValues, setQuoteValues] = useState<QuoteFormValues>({
-    quotePage: 0,
-    quoteText: '',
-  })
-  const [VisibilityValues, setVisibilityValues] = useState<VisibilityFormValues>({
-    isPublic: false,
-  })
+  // 2. 모든 Step의 결과를 누적할 formData (각 Step의 결과만 저장)
+  const [formData, setFormData] = useState<Partial<AllFormValues>>({})
+
+  // 3. Step 완료 시 결과만 누적
+  const handleStepComplete = (stepKey: Step, data: any) => {
+    setFormData((prev) => ({ ...prev, ...data }))
+    if (currentIndex < stepOrder.length - 1) {
+      setStep(stepOrder[currentIndex + 1])
+    } else {
+      // 마지막 Step(Visibility) 완료 시
+      const finalData: AllFormValues = {
+        ...formData,
+        ...data,
+      } as AllFormValues
+      // API 호출 등 최종 제출
+      console.log('최종 제출 데이터:', finalData)
+    }
+  }
+
   const handleBack = () => {
     if (currentIndex > 0) setStep(stepOrder[currentIndex - 1])
   }
 
-  const handleNext = () => {
-    if (currentIndex < stepOrder.length - 1) setStep(stepOrder[currentIndex + 1])
-  }
-  // BasicInfo 완료 시
-  const handleBasicInfoNext = (data: BasicInfoFormValues) => {
-    setBasicInfoValues(data)
-    handleNext()
-  }
-  // Rating 완료 시
-  const handleRatingNext = (data: RatingFormValues) => {
-    setRatingValues(data)
-    handleNext()
-  }
-  // Review 완료 시
-  const handleReviewNext = (data: ReviewFormValues) => {
-    setReviewValues(data)
-    handleNext()
-  }
-  // Quote 완료 시
-  const handleQuoteNext = (data: QuoteFormValues) => {
-    setQuoteValues(data)
-    handleNext()
-  }
-  // Visibility 완료 시 (최종 제출)
-  const handleVisibilityNext = (data: VisibilityFormValues) => {
-    setVisibilityValues(data)
-    // 모든 단계 데이터 합치기
-    const finalData = {
-      ...BasicInfoValues,
-      ...RatingValues,
-      ...ReviewValues,
-      ...QuoteValues,
-      ...data,
-    }
-    console.log('최종 제출 데이터:', finalData)
-    // TODO: API submit
-  }
-
   switch (step) {
     case Step.BasicInfo:
-      return <BasicInfo defaultValues={BasicInfoValues} onNext={handleBasicInfoNext} />
+      return (
+        <BasicInfo
+          initialValues={formData as BasicInfoFormValues}
+          onComplete={(data) => handleStepComplete(Step.BasicInfo, data)}
+        />
+      )
     case Step.Rating:
-      return <Rating defaultValues={RatingValues} onNext={handleRatingNext} onBack={handleBack} />
+      return (
+        <Rating
+          initialValues={formData as RatingFormValues}
+          onComplete={(data) => handleStepComplete(Step.Rating, data)}
+          onBack={handleBack}
+        />
+      )
     case Step.Review:
       return (
         <Review
-          defaultValues={ReviewValues}
-          rating={RatingValues.rating}
-          onNext={handleReviewNext}
+          initialValues={formData as ReviewFormValues}
+          rating={formData.rating ?? 0}
+          onComplete={(data) => handleStepComplete(Step.Review, data)}
           onBack={handleBack}
         />
       )
     case Step.Quote:
       return (
         <Quote
-          defaultValues={QuoteValues}
-          totalPages={BasicInfoValues.totalPages}
-          onNext={handleQuoteNext}
-          onBack={handleBack}
+          initialValues={formData as QuoteFormValues}
+          totalPages={formData.totalPages ?? 1}
+          onComplete={(data) => handleStepComplete(Step.Quote, data)}
+          onBack={() => setStep(stepOrder[currentIndex - 1])}
         />
       )
     case Step.Visibility:
       return (
         <Visibility
-          defaultValues={VisibilityValues}
-          onNext={handleVisibilityNext}
-          onBack={handleBack}
+          initialValues={formData as VisibilityFormValues}
+          onComplete={(data) => handleStepComplete(Step.Visibility, data)}
+          onBack={() => setStep(stepOrder[currentIndex - 1])}
         />
       )
     default:

@@ -1,29 +1,42 @@
-import { FC } from 'react'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ReviewFormValues } from '../types/formTypes'
 import { ReviewSchema } from '../schemas'
 
 interface ReviewProps {
-  defaultValues: ReviewFormValues
+  initialValues?: ReviewFormValues
   rating: number // 상위에서 전달받음 (별점)
-  onNext: (data: ReviewFormValues) => void
+  onComplete: (data: ReviewFormValues) => void
   onBack: () => void
 }
 
-export const Review: FC<ReviewProps> = ({ defaultValues, rating, onNext, onBack }) => {
+export const Review = ({ initialValues, rating, onComplete, onBack }: ReviewProps) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<ReviewFormValues>({
     resolver: zodResolver(ReviewSchema(rating)),
-    defaultValues,
+    defaultValues: initialValues || {
+      review: '',
+    },
     mode: 'onTouched',
   })
 
+  useEffect(() => {
+    if (initialValues) {
+      reset(initialValues)
+    }
+  }, [initialValues, reset])
+
+  const onSubmit = (data: ReviewFormValues) => {
+    onComplete(data)
+  }
+
   return (
-    <form onSubmit={handleSubmit(onNext)}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div>
         <label>독후감</label>
         <textarea {...register('review')} placeholder="독후감을 입력하세요" rows={6} />
