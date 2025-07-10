@@ -7,12 +7,9 @@ import {
   QuoteFormValues,
   VisibilityFormValues,
 } from './types/formTypes'
-import { BasicInfo } from './steps/BasicInfoStep'
-import { Rating } from './steps/Rating'
-import { Review } from './steps/Review'
-import { Quote } from './steps/Quote'
-import { Visibility } from './steps/Visibility'
+
 import { Step, stepOrder } from './types/step'
+import { BasicInfo, Quote, Rating, Review, Visibility } from './steps'
 
 const AddBookForm = () => {
   const [step, setStep] = useState<Step>(Step.BasicInfo)
@@ -62,7 +59,6 @@ const AddBookForm = () => {
   const handleReviewNext = (data: ReviewFormValues) => {
     setReviewValues(data)
     handleNext()
-    4
   }
   // Quote 완료 시
   const handleQuoteNext = (data: QuoteFormValues) => {

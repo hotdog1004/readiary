@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { RatingFormValues } from '../types/formTypes'
-import { RatingSchema } from '../schemas/stepSchemas'
+import { RatingSchema } from '../schemas'
 
 interface RatingProps {
   defaultValues: RatingFormValues

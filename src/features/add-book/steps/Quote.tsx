@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { QuoteFormValues } from '../types/formTypes'
-import { QuoteSchema } from '../schemas/stepSchemas'
+import { QuoteSchema } from '../schemas'
 
 interface QuoteProps {
   defaultValues: QuoteFormValues

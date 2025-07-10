@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ReviewFormValues } from '../types/formTypes'
-import { ReviewSchema } from '../schemas/stepSchemas'
+import { ReviewSchema } from '../schemas'
 
 interface ReviewProps {
   defaultValues: ReviewFormValues

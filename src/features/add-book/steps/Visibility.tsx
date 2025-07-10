@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { VisibilityFormValues } from '../types/formTypes'
-import { VisibilitySchema } from '../schemas/stepSchemas'
+import { VisibilitySchema } from '../schemas'
 
 interface VisibilityProps {
   defaultValues: VisibilityFormValues

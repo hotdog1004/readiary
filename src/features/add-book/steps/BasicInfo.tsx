@@ -2,8 +2,8 @@ import { FC } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { BasicInfoFormValues } from '../types/formTypes'
-import { BasicInfoSchema } from '../schemas/stepSchemas'
 import { BOOK_STATUS_LABELS, BOOK_STATUS_VALUES, BookStatus } from '@/shared/types/book'
+import { BasicInfoSchema } from '../schemas'
 
 interface BasicInfoProps {
   defaultValues: BasicInfoFormValues
