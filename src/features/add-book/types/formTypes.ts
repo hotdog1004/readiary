@@ -1,4 +1,5 @@
 import { BookStatus } from '@/shared/types/book'
+import { Step } from './step'
 
 export type BasicInfoFormValues = {
   title: string
@@ -24,6 +25,15 @@ export type QuoteFormValues = {
 export type VisibilityFormValues = {
   isPublic: boolean // 공개 여부
 }
+
+export type FormDataByStep = {
+  [Step.BasicInfo]?: BasicInfoFormValues
+  [Step.Rating]?: RatingFormValues
+  [Step.Review]?: ReviewFormValues
+  [Step.Quote]?: QuoteFormValues
+  [Step.Visibility]?: VisibilityFormValues
+}
+
 // 모든 Step의 값을 합친 타입
 export type AllFormValues = BasicInfoFormValues &
   RatingFormValues &

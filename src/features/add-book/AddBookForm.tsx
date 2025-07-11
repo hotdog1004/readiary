@@ -1,39 +1,42 @@
 import { useState } from 'react'
 
-import {
-  BasicInfoFormValues,
-  RatingFormValues,
-  ReviewFormValues,
-  QuoteFormValues,
-  VisibilityFormValues,
-  AllFormValues,
-} from './types/formTypes'
-
-import { Step, stepOrder } from './types/step'
 import { BasicInfo, Quote, Rating, Review, Visibility } from './steps'
+import { AllFormValues, FormDataByStep, Step, stepOrder } from './types'
 
 const AddBookForm = () => {
-  // 1. 현재 Step만 관리
   const [step, setStep] = useState<Step>(Step.BasicInfo)
+  const [formData, setFormData] = useState<FormDataByStep>({})
+
   const currentIndex = stepOrder.indexOf(step)
 
-  // 2. 모든 Step의 결과를 누적할 formData (각 Step의 결과만 저장)
-  const [formData, setFormData] = useState<Partial<AllFormValues>>({})
-
-  // 3. Step 완료 시 결과만 누적
   const handleStepComplete = (stepKey: Step, data: any) => {
-    setFormData((prev) => ({ ...prev, ...data }))
+    setFormData((prev) => ({
+      ...prev,
+      [stepKey]: data, // stepId(key)로 저장
+    }))
+
     if (currentIndex < stepOrder.length - 1) {
       setStep(stepOrder[currentIndex + 1])
     } else {
-      // 마지막 Step(Visibility) 완료 시
-      const finalData: AllFormValues = {
-        ...formData,
-        ...data,
-      } as AllFormValues
-      // API 호출 등 최종 제출
-      console.log('최종 제출 데이터:', finalData)
+      handleSubmit()
     }
+  }
+
+  const getFinalPayload = (formData: FormDataByStep): AllFormValues => {
+    // 각 스텝의 데이터를 평평하게 합치기
+    return {
+      ...formData[Step.BasicInfo],
+      ...formData[Step.Rating],
+      ...formData[Step.Review],
+      ...formData[Step.Quote],
+      ...formData[Step.Visibility],
+    } as AllFormValues
+  }
+
+  const handleSubmit = () => {
+    const finalPayload = getFinalPayload(formData)
+    // TODO: API 호출
+    console.log('최종 제출 데이터:', finalPayload)
   }
 
   const handleBack = () => {
@@ -44,14 +47,14 @@ const AddBookForm = () => {
     case Step.BasicInfo:
       return (
         <BasicInfo
-          initialValues={formData as BasicInfoFormValues}
+          initialValues={formData[Step.BasicInfo]}
           onComplete={(data) => handleStepComplete(Step.BasicInfo, data)}
         />
       )
     case Step.Rating:
       return (
         <Rating
-          initialValues={formData as RatingFormValues}
+          initialValues={formData[Step.Rating]}
           onComplete={(data) => handleStepComplete(Step.Rating, data)}
           onBack={handleBack}
         />
@@ -59,8 +62,8 @@ const AddBookForm = () => {
     case Step.Review:
       return (
         <Review
-          initialValues={formData as ReviewFormValues}
-          rating={formData.rating ?? 0}
+          initialValues={formData[Step.Review]}
+          rating={formData[Step.Rating]?.rating ?? 0}
           onComplete={(data) => handleStepComplete(Step.Review, data)}
           onBack={handleBack}
         />
@@ -68,8 +71,8 @@ const AddBookForm = () => {
     case Step.Quote:
       return (
         <Quote
-          initialValues={formData as QuoteFormValues}
-          totalPages={formData.totalPages ?? 1}
+          initialValues={formData[Step.Quote]}
+          totalPages={formData[Step.BasicInfo]?.totalPages ?? 1}
           onComplete={(data) => handleStepComplete(Step.Quote, data)}
           onBack={() => setStep(stepOrder[currentIndex - 1])}
         />
@@ -77,7 +80,7 @@ const AddBookForm = () => {
     case Step.Visibility:
       return (
         <Visibility
-          initialValues={formData as VisibilityFormValues}
+          initialValues={formData[Step.Visibility]}
           onComplete={(data) => handleStepComplete(Step.Visibility, data)}
           onBack={() => setStep(stepOrder[currentIndex - 1])}
         />

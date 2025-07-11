@@ -1,9 +1,9 @@
-export const enum Step {
-  BasicInfo = 'BasicInfo',
-  Rating = 'Rating',
-  Review = 'Review',
-  Quote = 'Quote',
-  Visibility = 'Visibility',
+export enum Step {
+  BasicInfo = 'basicInfo',
+  Rating = 'rating',
+  Review = 'review',
+  Quote = 'quote',
+  Visibility = 'visibility',
 }
 
 export const stepOrder: Step[] = [
