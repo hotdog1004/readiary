@@ -11,6 +11,7 @@ export interface DatePickerProps {
   showYearDropdown?: boolean
   showMonthDropdown?: boolean
   dropdownMode?: 'scroll' | 'select'
+  error?: boolean
 }
 
 export interface CustomInputProps {
@@ -18,4 +19,5 @@ export interface CustomInputProps {
   onClick?: () => void
   placeholder?: string
   disabled?: boolean
+  error?: boolean
 }

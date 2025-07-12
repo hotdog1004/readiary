@@ -5,13 +5,14 @@ import type { CustomInputProps, DatePickerProps } from './types'
 import { ClearButton, ClearButtonWrapper, StyledInput } from '../textField/styles'
 
 const CustomInput = React.forwardRef<HTMLInputElement, CustomInputProps>(
-  ({ value, onClick, placeholder, disabled }, ref) => (
+  ({ value, onClick, placeholder, disabled, error }, ref) => (
     <StyledInput
       ref={ref}
       value={value || ''}
       onClick={onClick}
       placeholder={placeholder}
       disabled={disabled}
+      error={error} // error prop 전달
       readOnly
       style={{ cursor: 'pointer' }}
     />
@@ -20,7 +21,16 @@ const CustomInput = React.forwardRef<HTMLInputElement, CustomInputProps>(
 
 const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
   (
-    { value, onChange, placeholder = '날짜를 선택하세요', onClear, disabled, className, ...rest },
+    {
+      value,
+      onChange,
+      placeholder = '날짜를 선택하세요',
+      onClear,
+      disabled,
+      className,
+      error,
+      ...rest
+    },
     ref,
   ) => {
     const handleClear = (e: React.MouseEvent) => {
@@ -38,7 +48,7 @@ const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
           <ReactDatePicker
             ref={ref}
             dateFormat="yyyy.MM.dd"
-            customInput={<CustomInput />}
+            customInput={<CustomInput error={error} />}
             selected={value}
             onChange={onChange}
             placeholderText={placeholder}
