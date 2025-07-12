@@ -1,8 +1,13 @@
 import { useEffect } from 'react'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { QuoteFormValues } from '../types/formTypes'
 import { QuoteSchema } from '../schemas'
+import { FormField } from '@/shared/ui/formField'
+import { FormLayout } from '@/shared/ui/formLayout'
+import { NumberField } from '@/shared/ui/textField'
+import { Textarea } from '@/shared/ui/textarea'
+import { Button } from '@/shared/ui/button'
 
 interface QuoteProps {
   initialValues?: QuoteFormValues
@@ -13,7 +18,7 @@ interface QuoteProps {
 
 export const Quote = ({ initialValues, totalPages, onComplete, onBack }: QuoteProps) => {
   const {
-    register,
+    control,
     handleSubmit,
     formState: { errors },
     reset,
@@ -37,31 +42,66 @@ export const Quote = ({ initialValues, totalPages, onComplete, onBack }: QuotePr
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <label>인용구 페이지 번호</label>
-        <input
-          type="number"
-          {...register('quotePage', { valueAsNumber: true })}
-          min={1}
-          max={totalPages}
-          placeholder={`1 ~ ${totalPages - 1}`}
-        />
-        {errors.quotePage && <span>{errors.quotePage.message}</span>}
+    <>
+      <FormLayout id="quote-form" onSubmit={handleSubmit(onSubmit)}>
+        <FormField
+          label="인용구 페이지 번호"
+          required
+          error={errors.quotePage?.message}
+          helperText={`1 ~ ${totalPages - 1} 페이지 중 선택해주세요.`}
+        >
+          <Controller
+            name="quotePage"
+            control={control}
+            render={({ field }) => (
+              <NumberField
+                {...field}
+                error={!!errors.quotePage}
+                placeholder={`1 ~ ${totalPages - 1}`}
+                min={1}
+                max={totalPages}
+              />
+            )}
+          />
+        </FormField>
+
+        <FormField
+          label="인용구"
+          required
+          error={errors.quoteText?.message}
+          helperText="책에서 인상 깊었던 문장을 입력하세요."
+        >
+          <Controller
+            name="quoteText"
+            control={control}
+            render={({ field }) => (
+              <Textarea
+                {...field}
+                error={!!errors.quoteText}
+                placeholder="책에서 인상 깊었던 문장을 입력하세요"
+                rows={6}
+              />
+            )}
+          />
+        </FormField>
+      </FormLayout>
+
+      <div
+        style={{
+          marginTop: '2rem',
+          textAlign: 'center',
+          display: 'flex',
+          gap: '1rem',
+          justifyContent: 'center',
+        }}
+      >
+        <Button size="small" variant="gray" onClick={onBack}>
+          이전
+        </Button>
+        <Button size="small" type="submit" form="quote-form">
+          다음
+        </Button>
       </div>
-      <div>
-        <label>인용구</label>
-        <textarea
-          {...register('quoteText')}
-          placeholder="책에서 인상 깊었던 문장을 입력하세요"
-          rows={4}
-        />
-        {errors.quoteText && <span>{errors.quoteText.message}</span>}
-      </div>
-      <button type="button" onClick={onBack}>
-        이전
-      </button>
-      <button type="submit">다음</button>
-    </form>
+    </>
   )
 }

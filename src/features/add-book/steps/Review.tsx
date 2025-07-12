@@ -1,8 +1,12 @@
 import { useEffect } from 'react'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ReviewFormValues } from '../types/formTypes'
 import { ReviewSchema } from '../schemas'
+import { FormLayout } from '@/shared/ui/formLayout'
+import { FormField } from '@/shared/ui/formField'
+import { Textarea } from '@/shared/ui/textarea'
+import { Button } from '@/shared/ui/button'
 
 interface ReviewProps {
   initialValues?: ReviewFormValues
@@ -13,7 +17,7 @@ interface ReviewProps {
 
 export const Review = ({ initialValues, rating, onComplete, onBack }: ReviewProps) => {
   const {
-    register,
+    control,
     handleSubmit,
     formState: { errors },
     reset,
@@ -34,23 +38,53 @@ export const Review = ({ initialValues, rating, onComplete, onBack }: ReviewProp
   const onSubmit = (data: ReviewFormValues) => {
     onComplete(data)
   }
+  const showSpecialMessage = rating === 1 || rating === 5
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <label>독후감</label>
-        <textarea {...register('review')} placeholder="독후감을 입력하세요" rows={6} />
-        {errors.review && <span>{errors.review.message}</span>}
-        {(rating === 1 || rating === 5) && (
-          <div style={{ color: '#888', fontSize: '0.9em' }}>
-            ※ 별점이 1점 또는 5점일 때는 100자 이상 입력해야 합니다.
-          </div>
-        )}
+    <>
+      <FormLayout id="review-form" onSubmit={handleSubmit(onSubmit)}>
+        <FormField
+          label="독후감"
+          required={showSpecialMessage}
+          error={errors.review?.message}
+          helperText={
+            showSpecialMessage
+              ? '※ 별점이 1점 또는 5점일 때는 100자 이상 입력해야 합니다.'
+              : '독후감을 입력하세요. (선택사항)'
+          }
+        >
+          <Controller
+            name="review"
+            control={control}
+            render={({ field }) => (
+              <Textarea
+                {...field}
+                value={field.value || ''}
+                error={!!errors.review}
+                placeholder="독후감을 입력하세요."
+                rows={6}
+              />
+            )}
+          />
+        </FormField>
+      </FormLayout>
+
+      <div
+        style={{
+          marginTop: '2rem',
+          textAlign: 'center',
+          display: 'flex',
+          gap: '1rem',
+          justifyContent: 'center',
+        }}
+      >
+        <Button size="small" variant="gray" onClick={onBack}>
+          이전
+        </Button>
+        <Button size="small" type="submit" form="review-form">
+          다음
+        </Button>
       </div>
-      <button type="button" onClick={onBack}>
-        이전
-      </button>
-      <button type="submit">다음</button>
-    </form>
+    </>
   )
 }

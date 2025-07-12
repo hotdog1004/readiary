@@ -9,24 +9,13 @@ import { NumberField, TextField } from '@/shared/ui/textField'
 import { DatePicker } from '@/shared/ui/datePicker'
 import { Select } from '@/shared/ui/select'
 import { Button } from '@/shared/ui/button'
-import styled from '@emotion/styled'
+import { FormLayout, FormRow } from '@/shared/ui/formLayout'
 
 interface BasicInfoProps {
   initialValues?: BasicInfoFormValues //  상위에서 전달받은 이전 값
   onComplete: (data: BasicInfoFormValues) => void
 }
 
-const FormContainer = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-`
-
-const FormRow = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-`
 const statusOptions = BOOK_STATUS_VALUES.map((value) => ({
   value,
   label: BOOK_STATUS_LABELS[value],
@@ -71,7 +60,7 @@ export const BasicInfo = ({ initialValues, onComplete }: BasicInfoProps) => {
   }
   return (
     <>
-      <FormContainer id="basic-info-form" onSubmit={handleSubmit(onSubmit)}>
+      <FormLayout id="basic-info-form" onSubmit={handleSubmit(onSubmit)}>
         <FormRow>
           <FormField
             label="제목"
@@ -215,7 +204,7 @@ export const BasicInfo = ({ initialValues, onComplete }: BasicInfoProps) => {
             )}
           />
         </FormField>
-      </FormContainer>
+      </FormLayout>
       {/* TODO: 버튼 form 외부로 분리 */}
       <div style={{ marginTop: '2rem', textAlign: 'center' }}>
         <Button size="small" type="submit" form="basic-info-form">
