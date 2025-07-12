@@ -2,12 +2,15 @@ import { useState } from 'react'
 
 import { BasicInfo, Quote, Rating, Review, Visibility } from './steps'
 import { AllFormValues, FormDataByStep, Step, stepOrder } from './types'
+import { StepLayout } from '@/widgets/stepForm/StepLayout'
+import { stepConfigs } from './constants/stepConfig'
 
 const AddBookForm = () => {
   const [step, setStep] = useState<Step>(Step.BasicInfo)
   const [formData, setFormData] = useState<FormDataByStep>({})
 
   const currentIndex = stepOrder.indexOf(step)
+  const currentStepConfig = stepConfigs[step]
 
   const handleStepComplete = (stepKey: Step, data: any) => {
     setFormData((prev) => ({
@@ -43,50 +46,57 @@ const AddBookForm = () => {
     if (currentIndex > 0) setStep(stepOrder[currentIndex - 1])
   }
 
-  switch (step) {
-    case Step.BasicInfo:
-      return (
-        <BasicInfo
-          initialValues={formData[Step.BasicInfo]}
-          onComplete={(data) => handleStepComplete(Step.BasicInfo, data)}
-        />
-      )
-    case Step.Rating:
-      return (
-        <Rating
-          initialValues={formData[Step.Rating]}
-          onComplete={(data) => handleStepComplete(Step.Rating, data)}
-          onBack={handleBack}
-        />
-      )
-    case Step.Review:
-      return (
-        <Review
-          initialValues={formData[Step.Review]}
-          rating={formData[Step.Rating]?.rating ?? 0}
-          onComplete={(data) => handleStepComplete(Step.Review, data)}
-          onBack={handleBack}
-        />
-      )
-    case Step.Quote:
-      return (
-        <Quote
-          initialValues={formData[Step.Quote]}
-          totalPages={formData[Step.BasicInfo]?.totalPages ?? 1}
-          onComplete={(data) => handleStepComplete(Step.Quote, data)}
-          onBack={() => setStep(stepOrder[currentIndex - 1])}
-        />
-      )
-    case Step.Visibility:
-      return (
-        <Visibility
-          initialValues={formData[Step.Visibility]}
-          onComplete={(data) => handleStepComplete(Step.Visibility, data)}
-          onBack={() => setStep(stepOrder[currentIndex - 1])}
-        />
-      )
-    default:
-      return null
+  const renderStep = () => {
+    switch (step) {
+      case Step.BasicInfo:
+        return (
+          <BasicInfo
+            initialValues={formData[Step.BasicInfo]}
+            onComplete={(data) => handleStepComplete(Step.BasicInfo, data)}
+          />
+        )
+      case Step.Rating:
+        return (
+          <Rating
+            initialValues={formData[Step.Rating]}
+            onComplete={(data) => handleStepComplete(Step.Rating, data)}
+            onBack={handleBack}
+          />
+        )
+      case Step.Review:
+        return (
+          <Review
+            initialValues={formData[Step.Review]}
+            rating={formData[Step.Rating]?.rating ?? 0}
+            onComplete={(data) => handleStepComplete(Step.Review, data)}
+            onBack={handleBack}
+          />
+        )
+      case Step.Quote:
+        return (
+          <Quote
+            initialValues={formData[Step.Quote]}
+            totalPages={formData[Step.BasicInfo]?.totalPages ?? 1}
+            onComplete={(data) => handleStepComplete(Step.Quote, data)}
+            onBack={() => setStep(stepOrder[currentIndex - 1])}
+          />
+        )
+      case Step.Visibility:
+        return (
+          <Visibility
+            initialValues={formData[Step.Visibility]}
+            onComplete={(data) => handleStepComplete(Step.Visibility, data)}
+            onBack={() => setStep(stepOrder[currentIndex - 1])}
+          />
+        )
+      default:
+        return null
+    }
   }
+  return (
+    <StepLayout title={currentStepConfig.label} description={currentStepConfig.description}>
+      {renderStep()}
+    </StepLayout>
+  )
 }
 export default AddBookForm
