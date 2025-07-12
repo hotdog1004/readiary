@@ -13,7 +13,7 @@ export const Track = styled.div<{ $progress: number }>`
   width: 100%;
   height: 0.375rem;
   background: ${({ theme }) => theme.colors.grayLighter};
-  border-radius: 0.1875rem;
+  border-radius: ${({ theme }) => theme.borderRadius.small};
   overflow: hidden;
 
   &::before {
@@ -24,7 +24,7 @@ export const Track = styled.div<{ $progress: number }>`
     height: 100%;
     width: ${({ $progress }) => $progress}%;
     background: ${({ theme }) => theme.colors.primary};
-    border-radius: 0.1875rem;
+    border-radius: ${({ theme }) => theme.borderRadius.small};
   }
 `
 
@@ -39,7 +39,7 @@ export const StyledRange = styled.input`
   &::-webkit-slider-thumb {
     height: 1.5rem;
     width: 1.5rem;
-    border-radius: 50%;
+    border-radius: ${({ theme }) => theme.borderRadius.full};
     border: 2px solid ${({ theme }) => theme.colors.primary};
     background-color: ${({ theme }) => theme.colors.white};
     -webkit-appearance: none;
@@ -58,14 +58,14 @@ export const StyledRange = styled.input`
 
   &::-webkit-slider-track {
     height: 0.375rem;
-    border-radius: 0.1875rem;
+    border-radius: ${({ theme }) => theme.borderRadius.small};
     background: transparent;
   }
 
   &::-moz-range-thumb {
     height: 1.5rem;
     width: 1.5rem;
-    border-radius: 50%;
+    border-radius: ${({ theme }) => theme.borderRadius.full};
     border: 2px solid ${({ theme }) => theme.colors.primary};
     background-color: ${({ theme }) => theme.colors.white};
     cursor: pointer;
@@ -82,7 +82,7 @@ export const StyledRange = styled.input`
 
   &::-moz-range-track {
     height: 0.375rem;
-    border-radius: 0.1875rem;
+    border-radius: ${({ theme }) => theme.borderRadius.small};
     background: transparent;
     border: none;
   }
@@ -102,7 +102,7 @@ export const ValueDisplay = styled.div`
   padding: 0.25rem 0.5rem;
   background: ${({ theme }) => theme.colors.white};
   border: 1px solid ${({ theme }) => theme.colors.grayLight};
-  border-radius: 0.25rem;
+  border-radius: ${({ theme }) => theme.borderRadius.medium};
   font-size: 0.875rem;
   color: ${({ theme }) => theme.colors.text};
   text-align: center;

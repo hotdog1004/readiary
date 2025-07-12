@@ -10,7 +10,7 @@ export const TextareaWrapper = styled.div`
 export const StyledTextarea = styled.textarea`
   display: flex;
   width: 100%;
-  border-radius: 0.375rem;
+  border-radius: ${({ theme }) => theme.borderRadius.medium};
   border: 1px solid ${({ theme }) => theme.colors.grayLight};
   background: ${({ theme }) => theme.colors.white};
   padding: 0.75rem;

@@ -2,7 +2,7 @@ import styled from '@emotion/styled'
 
 export const Card = styled.div`
   background: ${({ theme }) => theme.colors.white};
-  border-radius: 0.75rem;
+  border-radius: ${({ theme }) => theme.borderRadius.large};
   box-shadow: ${({ theme }) => theme.shadows.small};
   overflow: hidden;
   transition:
@@ -25,7 +25,7 @@ export const BookCover = styled.div`
   width: 5rem;
   height: 7.5rem;
   background: ${({ theme }) => theme.colors.grayLight};
-  border-radius: 0.375rem;
+  border-radius: ${({ theme }) => theme.borderRadius.medium};
   display: flex;
   align-items: center;
   justify-content: center;
