@@ -1,2 +1,5 @@
 export { default as Button } from './Button'
 export { default as LinkButton } from './LinkButton'
+export type { ButtonProps, LinkButtonProps } from './types'
+export { StyledButton, StyledLink } from './styles'
+export type { ButtonSize, ButtonVariant } from './styles'
