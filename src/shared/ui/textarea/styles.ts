@@ -1,0 +1,41 @@
+import styled from '@emotion/styled'
+
+export const TextareaWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+`
+
+export const StyledTextarea = styled.textarea`
+  display: flex;
+  width: 100%;
+  border-radius: 0.375rem;
+  border: 1px solid ${({ theme }) => theme.colors.grayLight};
+  background: ${({ theme }) => theme.colors.white};
+  padding: 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: ${({ theme }) => theme.colors.text};
+  outline: none;
+  transition: border 0.2s;
+  box-sizing: border-box;
+  resize: none;
+  min-height: 6rem;
+
+  &::placeholder {
+    color: ${({ theme }) => theme.colors.gray};
+    opacity: 1;
+  }
+
+  &:focus-visible {
+    outline: none;
+    border-color: ${({ theme }) => theme.colors.black};
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    background: ${({ theme }) => theme.colors.background};
+  }
+`
