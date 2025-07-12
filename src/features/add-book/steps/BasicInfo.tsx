@@ -1,15 +1,32 @@
 import { useEffect } from 'react'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { BasicInfoFormValues } from '../types/formTypes'
-import { BOOK_STATUS_LABELS, BOOK_STATUS_VALUES, BookStatus } from '@/shared/types/book'
+import { BOOK_STATUS_LABELS, BOOK_STATUS_VALUES } from '@/shared/types/book'
 import { BasicInfoSchema } from '../schemas'
+import { FormField } from '@/shared/ui/formField'
+import { NumberField, TextField } from '@/shared/ui/textField'
+import { DatePicker } from '@/shared/ui/datePicker'
+import { Select } from '@/shared/ui/select'
+import { Button } from '@/shared/ui/button'
+import styled from '@emotion/styled'
 
 interface BasicInfoProps {
   initialValues?: BasicInfoFormValues //  상위에서 전달받은 이전 값
   onComplete: (data: BasicInfoFormValues) => void
 }
 
+const FormContainer = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`
+
+const FormRow = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+`
 const statusOptions = BOOK_STATUS_VALUES.map((value) => ({
   value,
   label: BOOK_STATUS_LABELS[value],
@@ -22,7 +39,7 @@ export const BasicInfo = ({ initialValues, onComplete }: BasicInfoProps) => {
    * - initialValues가 바뀌면 reset으로 RHF 상태 동기화
    */
   const {
-    register,
+    control,
     handleSubmit,
     formState: { errors },
     reset,
@@ -38,8 +55,9 @@ export const BasicInfo = ({ initialValues, onComplete }: BasicInfoProps) => {
       totalPages: 1,
       publishedDate: '',
     },
-    mode: 'onChange', // 변경될 때마다 유효성 검증 실행하기 위해 처리
+    mode: 'onChange',
   })
+
   useEffect(() => {
     if (initialValues) {
       reset(initialValues)
@@ -52,53 +70,158 @@ export const BasicInfo = ({ initialValues, onComplete }: BasicInfoProps) => {
     onComplete(data) // 상위에 결과만 전달
   }
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <label>제목</label>
-        <input {...register('title')} />
-        {errors.title && <span>{errors.title.message}</span>}
+    <>
+      <FormContainer id="basic-info-form" onSubmit={handleSubmit(onSubmit)}>
+        <FormRow>
+          <FormField
+            label="제목"
+            required
+            error={errors.title?.message}
+            helperText="책의 제목을 입력해주세요."
+          >
+            <Controller
+              name="title"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  error={!!errors.title}
+                  placeholder="책 제목을 입력하세요."
+                  onClear={() => field.onChange('')}
+                />
+              )}
+            />
+          </FormField>
+
+          <FormField
+            label="저자"
+            required
+            error={errors.author?.message}
+            helperText="책의 저자를 입력해주세요"
+          >
+            <Controller
+              name="author"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  error={!!errors.author}
+                  placeholder="저자명을 입력하세요."
+                  onClear={() => field.onChange('')}
+                />
+              )}
+            />
+          </FormField>
+        </FormRow>
+
+        <FormRow>
+          <FormField
+            label="도서 출판일"
+            required
+            error={errors.publishedDate?.message}
+            helperText="책의 출판일을 선택해주세요."
+          >
+            <Controller
+              name="publishedDate"
+              control={control}
+              render={({ field }) => (
+                <DatePicker
+                  value={field.value ? new Date(field.value) : null}
+                  onChange={(date) => field.onChange(date?.toISOString().split('T')[0])}
+                  error={!!errors.publishedDate}
+                  placeholder="출판일을 선택하세요"
+                />
+              )}
+            />
+          </FormField>
+
+          <FormField
+            label="상태"
+            required
+            error={errors.status?.message}
+            helperText="현재 읽고 있는 상태를 선택해주세요."
+          >
+            <Controller
+              name="status"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  value={field.value}
+                  onChange={field.onChange}
+                  options={statusOptions}
+                  placeholder="상태를 선택하세요."
+                />
+              )}
+            />
+          </FormField>
+        </FormRow>
+        <FormRow>
+          <FormField
+            label="시작일"
+            error={errors.startDate?.message}
+            helperText="읽기 시작한 날짜를 선택해주세요."
+          >
+            <Controller
+              name="startDate"
+              control={control}
+              render={({ field }) => (
+                <DatePicker
+                  value={field.value ? new Date(field.value) : null}
+                  onChange={(date) => field.onChange(date?.toISOString().split('T')[0])}
+                  error={!!errors.startDate}
+                  disabled={status === 'want_to_read'}
+                  placeholder="시작일을 선택하세요."
+                />
+              )}
+            />
+          </FormField>
+          <FormField
+            label="종료일"
+            error={errors.endDate?.message}
+            helperText="읽기를 완료한 날짜를 선택해주세요."
+          >
+            <Controller
+              name="endDate"
+              control={control}
+              render={({ field }) => (
+                <DatePicker
+                  value={field.value ? new Date(field.value) : null}
+                  onChange={(date) => field.onChange(date?.toISOString().split('T')[0])}
+                  error={!!errors.endDate}
+                  disabled={status === 'want_to_read' || status === 'reading'}
+                  placeholder="종료일을 선택하세요."
+                />
+              )}
+            />
+          </FormField>
+        </FormRow>
+
+        <FormField
+          label="도서 전체 페이지 수"
+          required
+          error={errors.totalPages?.message}
+          helperText="책의 총 페이지 수를 입력해주세요."
+        >
+          <Controller
+            name="totalPages"
+            control={control}
+            render={({ field }) => (
+              <NumberField
+                {...field}
+                error={!!errors.totalPages}
+                placeholder="페이지 수를 입력하세요."
+                min={1}
+              />
+            )}
+          />
+        </FormField>
+      </FormContainer>
+      {/* TODO: 버튼 form 외부로 분리 */}
+      <div style={{ marginTop: '2rem', textAlign: 'center' }}>
+        <Button size="small" type="submit" form="basic-info-form">
+          다음
+        </Button>
       </div>
-      <div>
-        <label>저자</label>
-        <input {...register('author')} />
-        {errors.author && <span>{errors.author.message}</span>}
-      </div>
-      <div>
-        <label>도서 출판일</label>
-        <input type="date" {...register('publishedDate')} />
-        {errors.publishedDate && <span>{errors.publishedDate.message}</span>}
-      </div>
-      <div>
-        <label>상태</label>
-        <select {...register('status')}>
-          {statusOptions.map((opt) => (
-            <option key={opt.value} value={opt.value}>
-              {opt.label}
-            </option>
-          ))}
-        </select>
-        {errors.status && <span>{errors.status.message}</span>}
-      </div>
-      <div>
-        <label>도서 전체 페이지 수</label>
-        <input type="number" min={1} {...register('totalPages', { valueAsNumber: true })} />
-        {errors.totalPages && <span>{errors.totalPages.message}</span>}
-      </div>
-      <div>
-        <label>시작일</label>
-        <input type="date" {...register('startDate')} disabled={status === 'want_to_read'} />
-        {errors.startDate && <span>{errors.startDate.message}</span>}
-      </div>
-      <div>
-        <label>종료일</label>
-        <input
-          type="date"
-          {...register('endDate')}
-          disabled={status === 'want_to_read' || status === 'reading'}
-        />
-        {errors.endDate && <span>{errors.endDate.message}</span>}
-      </div>
-      <button type="submit">다음</button>
-    </form>
+    </>
   )
 }
