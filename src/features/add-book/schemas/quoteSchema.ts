@@ -8,7 +8,7 @@ export const QuoteSchema = (totalPages: number) =>
           required_error: '인용구 페이지 번호를 입력해 주세요.',
         })
         .min(1, '페이지 번호는 최소 1페이지 이상이어야 해요.'),
-      quoteText: z.string(),
+      quoteText: z.string().trim().min(1, '인용구를 입력해 주세요.'),
     })
     .superRefine((data, ctx) => {
       if (data.quotePage >= totalPages) {
