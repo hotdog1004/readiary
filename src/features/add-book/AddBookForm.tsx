@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { BasicInfo, Quote, Rating, Review, Visibility } from './steps'
 import { FormDataByStep, FormState, Step } from './types'
-import { stepOrder } from './constants'
+import { stepConfigs, stepOrder } from './constants'
+import { StepLayout } from '@/shared/ui/stepForm/StepLayout'
 
 const AddBookForm = () => {
   const [stepFormState, setStepFormState] = useState<FormState>({
@@ -10,6 +11,7 @@ const AddBookForm = () => {
   })
 
   const currentIndex = stepOrder.indexOf(stepFormState.step)
+  const currentStepConfig = stepConfigs[stepFormState.step]
 
   const handleNext = <T extends Step>(stepKey: T, data: FormDataByStep[T]) => {
     saveStepFormData(stepKey, data)
@@ -60,50 +62,57 @@ const AddBookForm = () => {
   }
 
   // TODO: 각 step form layout 적용(stepConfigs의 title, description 적용)
-  switch (stepFormState.step) {
-    case Step.BasicInfo:
-      return (
-        <BasicInfo
-          initialValues={stepFormState.formData[Step.BasicInfo]}
-          onComplete={(data) => handleNext(Step.BasicInfo, data)}
-        />
-      )
-    case Step.Rating:
-      return (
-        <Rating
-          initialValues={stepFormState.formData[Step.Rating]}
-          onComplete={(data) => handleNext(Step.Rating, data)}
-          onBack={handleBack}
-        />
-      )
-    case Step.Review:
-      return (
-        <Review
-          initialValues={stepFormState.formData[Step.Review]}
-          rating={stepFormState.formData[Step.Rating]?.rating ?? 0}
-          onComplete={(data) => handleNext(Step.Review, data)}
-          onBack={handleBack}
-        />
-      )
-    case Step.Quote:
-      return (
-        <Quote
-          initialValues={stepFormState.formData[Step.Quote]}
-          totalPages={stepFormState.formData[Step.BasicInfo]?.totalPages ?? 1}
-          onComplete={(data) => handleNext(Step.Quote, data)}
-          onBack={handleBack}
-        />
-      )
-    case Step.Visibility:
-      return (
-        <Visibility
-          initialValues={stepFormState.formData[Step.Visibility]}
-          onComplete={(data) => handleComplete(Step.Visibility, data)}
-          onBack={handleBack}
-        />
-      )
-    default:
-      return null
+  const renderStep = () => {
+    switch (stepFormState.step) {
+      case Step.BasicInfo:
+        return (
+          <BasicInfo
+            initialValues={stepFormState.formData[Step.BasicInfo]}
+            onComplete={(data) => handleNext(Step.BasicInfo, data)}
+          />
+        )
+      case Step.Rating:
+        return (
+          <Rating
+            initialValues={stepFormState.formData[Step.Rating]}
+            onComplete={(data) => handleNext(Step.Rating, data)}
+            onBack={handleBack}
+          />
+        )
+      case Step.Review:
+        return (
+          <Review
+            initialValues={stepFormState.formData[Step.Review]}
+            rating={stepFormState.formData[Step.Rating]?.rating ?? 0}
+            onComplete={(data) => handleNext(Step.Review, data)}
+            onBack={handleBack}
+          />
+        )
+      case Step.Quote:
+        return (
+          <Quote
+            initialValues={stepFormState.formData[Step.Quote]}
+            totalPages={stepFormState.formData[Step.BasicInfo]?.totalPages ?? 1}
+            onComplete={(data) => handleNext(Step.Quote, data)}
+            onBack={handleBack}
+          />
+        )
+      case Step.Visibility:
+        return (
+          <Visibility
+            initialValues={stepFormState.formData[Step.Visibility]}
+            onComplete={(data) => handleComplete(Step.Visibility, data)}
+            onBack={handleBack}
+          />
+        )
+      default:
+        return null
+    }
   }
+  return (
+    <StepLayout title={currentStepConfig.title} description={currentStepConfig.description}>
+      {renderStep()}
+    </StepLayout>
+  )
 }
 export default AddBookForm
