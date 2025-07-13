@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { VisibilityFormValues } from '../types/formTypes'
@@ -15,7 +14,6 @@ export const Visibility = ({ initialValues, onComplete, onBack }: VisibilityProp
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm<VisibilityFormValues>({
     resolver: zodResolver(VisibilitySchema),
     defaultValues: initialValues || {
@@ -23,12 +21,6 @@ export const Visibility = ({ initialValues, onComplete, onBack }: VisibilityProp
     },
     mode: 'onTouched',
   })
-
-  useEffect(() => {
-    if (initialValues) {
-      reset(initialValues)
-    }
-  }, [initialValues, reset])
 
   const onSubmit = (data: VisibilityFormValues) => {
     onComplete(data)

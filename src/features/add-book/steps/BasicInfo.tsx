@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { BasicInfoFormValues } from '../types/formTypes'
@@ -19,16 +18,15 @@ export const BasicInfo = ({ initialValues, onComplete }: BasicInfoProps) => {
   /**
    * - useForm, 상태, 에러, 검증 모두 Step 내부에서만 관리
    * - 상위는 onComplete로 결과만 받음
-   * - initialValues가 바뀌면 reset으로 RHF 상태 동기화
    */
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
     watch,
   } = useForm<BasicInfoFormValues>({
     resolver: zodResolver(BasicInfoSchema),
+    // TODO: 폼 데이터 로드 로직을 관리하는 커스텀 훅 구현 후 각 스텝 폼에서 사용하는 방식으로 변경
     defaultValues: initialValues || {
       title: '',
       author: '',
@@ -40,11 +38,6 @@ export const BasicInfo = ({ initialValues, onComplete }: BasicInfoProps) => {
     },
     mode: 'onChange', // 변경될 때마다 유효성 검증 실행하기 위해 처리
   })
-  useEffect(() => {
-    if (initialValues) {
-      reset(initialValues)
-    }
-  }, [initialValues, reset])
 
   const status = watch('status')
 

@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { RatingFormValues } from '../types/formTypes'
@@ -15,7 +14,6 @@ export const Rating = ({ initialValues, onComplete, onBack }: RatingProps) => {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm<RatingFormValues>({
     resolver: zodResolver(RatingSchema),
     defaultValues: initialValues || {
@@ -24,12 +22,6 @@ export const Rating = ({ initialValues, onComplete, onBack }: RatingProps) => {
     },
     mode: 'onTouched',
   })
-
-  useEffect(() => {
-    if (initialValues) {
-      reset(initialValues)
-    }
-  }, [initialValues, reset])
 
   const ratingOptions = Array.from({ length: 11 }, (_, i) => i * 0.5)
 

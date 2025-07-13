@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { QuoteFormValues } from '../types/formTypes'
@@ -16,7 +15,6 @@ export const Quote = ({ initialValues, totalPages, onComplete, onBack }: QuotePr
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm<QuoteFormValues>({
     resolver: zodResolver(QuoteSchema(totalPages)),
     defaultValues: initialValues || {
@@ -25,12 +23,6 @@ export const Quote = ({ initialValues, totalPages, onComplete, onBack }: QuotePr
     },
     mode: 'onTouched',
   })
-
-  useEffect(() => {
-    if (initialValues) {
-      reset(initialValues)
-    }
-  }, [initialValues, reset])
 
   const onSubmit = (data: QuoteFormValues) => {
     onComplete(data)
