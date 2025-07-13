@@ -7,11 +7,11 @@ export const TextareaWrapper = styled.div`
   align-items: flex-start;
 `
 
-export const StyledTextarea = styled.textarea`
+export const StyledTextarea = styled.textarea<{ error?: boolean }>`
   display: flex;
   width: 100%;
   border-radius: ${({ theme }) => theme.borderRadius.medium};
-  border: 1px solid ${({ theme }) => theme.colors.grayLight};
+  border: 1px solid ${({ theme, error }) => (error ? theme.colors.danger : theme.colors.grayLight)};
   background: ${({ theme }) => theme.colors.white};
   padding: 0.75rem;
   font-size: 1rem;
@@ -30,7 +30,7 @@ export const StyledTextarea = styled.textarea`
 
   &:focus-visible {
     outline: none;
-    border-color: ${({ theme }) => theme.colors.black};
+    border-color: ${({ theme, error }) => (error ? theme.colors.danger : theme.colors.black)};
   }
 
   &:disabled {

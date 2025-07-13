@@ -3,4 +3,5 @@ export interface BaseFieldProps
   onClear?: () => void
   placeholder?: string
   showClearButton?: boolean
+  error?: boolean
 }

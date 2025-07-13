@@ -8,12 +8,12 @@ export const InputWrapper = styled.div`
   align-items: center;
 `
 
-export const StyledInput = styled.input`
+export const StyledInput = styled.input<{ error?: boolean }>`
   display: flex;
   height: 2.5rem;
   width: 100%;
   border-radius: ${({ theme }) => theme.borderRadius.medium};
-  border: 1px solid ${({ theme }) => theme.colors.grayLight};
+  border: 1px solid ${({ theme, error }) => (error ? theme.colors.danger : theme.colors.grayLight)};
   background-color: ${({ theme }) => theme.colors.white};
   padding: 0.5rem 2.25rem 0.5rem 0.75rem;
   font-size: 1rem;
@@ -32,7 +32,7 @@ export const StyledInput = styled.input`
 
   &:focus-visible {
     outline: none;
-    border-color: ${({ theme }) => theme.colors.black};
+    border-color: ${({ theme, error }) => (error ? theme.colors.danger : theme.colors.black)};
   }
 
   &:disabled {
