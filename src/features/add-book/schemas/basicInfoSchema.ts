@@ -1,7 +1,8 @@
 import { BOOK_STATUS_VALUES } from '@/shared/types/book'
 import z from 'zod'
+import { BasicInfoFormValues } from '../types'
 
-export function validateStatusRules(data: any, ctx: z.RefinementCtx) {
+export function validateStatusRules(data: BasicInfoFormValues, ctx: z.RefinementCtx) {
   if (data.status === 'want_to_read' && (data.startDate || data.endDate)) {
     ctx.addIssue({
       path: ['startDate'],
@@ -17,7 +18,12 @@ export function validateStatusRules(data: any, ctx: z.RefinementCtx) {
     })
   }
   if (data.status === 'finished') {
-    if (!data.startDate || !data.endDate) {
+    if (
+      data.startDate === undefined ||
+      data.startDate === '' ||
+      data.endDate === undefined ||
+      data.endDate === ''
+    ) {
       ctx.addIssue({
         path: ['startDate'],
         message: '다 읽은 책은 독서 기간을 모두 입력해야합니다.',
@@ -35,7 +41,7 @@ export function validateStatusRules(data: any, ctx: z.RefinementCtx) {
   }
 }
 
-export function validateDateRules(data: any, ctx: z.RefinementCtx) {
+export function validateDateRules(data: BasicInfoFormValues, ctx: z.RefinementCtx) {
   if (data.startDate && data.endDate && data.startDate > data.endDate) {
     ctx.addIssue({
       path: ['startDate'],
