@@ -8,6 +8,7 @@ export interface BaseSelectProps {
   options: SelectOption[]
   disabled?: boolean
   className?: string
+  error?: boolean
 }
 
 export interface SelectProps extends BaseSelectProps {

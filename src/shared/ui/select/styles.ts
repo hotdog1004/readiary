@@ -6,15 +6,16 @@ export const SelectWrapper = styled.div`
   font-family: inherit;
 `
 
-export const SelectBox = styled.div<{ $disabled?: boolean }>`
+export const SelectBox = styled.div<{ disabled?: boolean; error?: boolean }>`
   padding: 0.5rem 0.75rem;
-  border: 1px solid ${({ theme }) => theme.colors.grayLight};
+  border: 1px solid ${({ theme, error }) => (error ? theme.colors.danger : theme.colors.grayLight)};
+
   border-radius: ${({ theme }) => theme.borderRadius.medium};
   background: ${({ theme }) => theme.colors.white};
-  cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'pointer')};
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
   outline: none;
   transition: all 0.2s ease;
-  opacity: ${({ $disabled }) => ($disabled ? 0.5 : 1)};
+  opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
   font-size: 1rem;
   color: ${({ theme }) => theme.colors.text};
   display: flex;
@@ -25,7 +26,7 @@ export const SelectBox = styled.div<{ $disabled?: boolean }>`
 
   &:focus-visible {
     outline: none;
-    border-color: ${({ theme }) => theme.colors.black};
+    border-color: ${({ theme, error }) => (error ? theme.colors.danger : theme.colors.black)};
   }
 
   &[data-state='open'] {
@@ -40,20 +41,20 @@ export const SelectValue = styled.span`
   color: ${({ theme }) => theme.colors.text};
 
   &[data-placeholder] {
-    color: ${({ theme }) => theme.colors.gray};
+    color: ${({ theme }) => theme.colors.grayLight};
   }
 `
 
-export const SelectIcon = styled.svg<{ $isOpen?: boolean }>`
+export const SelectIcon = styled.svg<{ isOpen?: boolean }>`
   width: 1rem;
   height: 1rem;
   margin-left: 0.5rem;
   transition: transform 0.2s ease;
-  transform: ${({ $isOpen }) => ($isOpen ? 'rotate(180deg)' : 'rotate(0deg)')};
+  transform: ${({ isOpen }) => (isOpen ? 'rotate(180deg)' : 'rotate(0deg)')};
   color: ${({ theme }) => theme.colors.gray};
 `
 
-export const OptionsList = styled.ul<{ $open: boolean }>`
+export const OptionsList = styled.ul<{ open: boolean }>`
   position: absolute;
   top: 100%;
   left: 0;
@@ -68,8 +69,8 @@ export const OptionsList = styled.ul<{ $open: boolean }>`
   overflow-y: auto;
   z-index: 1000;
   box-shadow: ${({ theme }) => theme.shadows.medium};
-  display: ${({ $open }) => ($open ? 'block' : 'none')};
-  animation: ${({ $open }) => ($open ? 'selectSlideDown 0.2s ease-out' : 'none')};
+  display: ${({ open }) => (open ? 'block' : 'none')};
+  animation: ${({ open }) => (open ? 'selectSlideDown 0.2s ease-out' : 'none')};
 
   @keyframes selectSlideDown {
     from {
@@ -96,7 +97,7 @@ export const OptionsList = styled.ul<{ $open: boolean }>`
   }
 `
 
-export const OptionItem = styled.li<{ $isSelected?: boolean; $isFocused?: boolean }>`
+export const OptionItem = styled.li<{ isFocused?: boolean }>`
   padding: 0.5rem 0.75rem;
   cursor: pointer;
   font-size: 1rem;
@@ -119,8 +120,8 @@ export const OptionItem = styled.li<{ $isSelected?: boolean; $isFocused?: boolea
     background: ${({ theme }) => theme.colors.background};
   }
 
-  ${({ $isFocused, theme }) =>
-    $isFocused &&
+  ${({ isFocused, theme }) =>
+    isFocused &&
     `
     background: ${theme.colors.background};
     outline: none;
@@ -136,13 +137,13 @@ export const OptionText = styled.span`
   flex: 1;
 `
 
-export const OptionCheck = styled.span<{ $isSelected?: boolean }>`
+export const OptionCheck = styled.span<{ isSelected?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
   width: 1rem;
   height: 1rem;
   margin-left: 0.5rem;
-  color: ${({ theme, $isSelected }) => ($isSelected ? theme.colors.primary : 'transparent')};
+  color: ${({ theme, isSelected }) => (isSelected ? theme.colors.primary : 'transparent')};
   transition: color 0.15s ease;
 `

@@ -26,7 +26,7 @@ export const StyledInput = styled.input<{ error?: boolean }>`
   text-overflow: ellipsis;
 
   &::placeholder {
-    color: ${({ theme }) => theme.colors.gray};
+    color: ${({ theme }) => theme.colors.grayLight};
     opacity: 1;
   }
 

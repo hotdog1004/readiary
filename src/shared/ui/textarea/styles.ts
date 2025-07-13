@@ -24,7 +24,7 @@ export const StyledTextarea = styled.textarea<{ error?: boolean }>`
   min-height: 6rem;
 
   &::placeholder {
-    color: ${({ theme }) => theme.colors.gray};
+    color: ${({ theme }) => theme.colors.grayLight};
     opacity: 1;
   }
 

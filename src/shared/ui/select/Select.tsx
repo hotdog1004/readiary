@@ -13,7 +13,7 @@ import {
 import type { SelectProps } from './types'
 
 const Select = forwardRef<HTMLDivElement, SelectProps>(
-  ({ value, onChange, options, placeholder = '', disabled, className, ...rest }, ref) => {
+  ({ value, onChange, options, placeholder = '', disabled, className, error, ...rest }, ref) => {
     const [open, setOpen] = useState(false)
     const [focusedIndex, setFocusedIndex] = useState(-1)
     const containerRef = useRef<HTMLDivElement>(null)
@@ -112,9 +112,10 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
         {...rest}
       >
         <SelectBox
+          error={error}
           onClick={handleToggle}
           onKeyDown={handleKeyDown}
-          $disabled={disabled}
+          disabled={disabled}
           data-state={open ? 'open' : 'closed'}
           tabIndex={disabled ? -1 : 0}
           role="combobox"
@@ -125,24 +126,24 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(
           <SelectValue data-placeholder={!selectedOption}>
             {selectedOption ? selectedOption.label : placeholder}
           </SelectValue>
-          <SelectIcon $isOpen={open} viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <SelectIcon isOpen={open} viewBox="0 0 24 24" fill="none" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </SelectIcon>
         </SelectBox>
 
-        <OptionsList $open={open} role="listbox">
+        <OptionsList open={open} role="listbox">
           {options.map((option, index) => (
             <OptionItem
               key={option.value}
-              $isSelected={option.value === value}
-              $isFocused={index === focusedIndex}
+              //   isSelected={option.value === value}
+              isFocused={index === focusedIndex}
               onClick={() => handleSelect(option.value)}
               role="option"
               aria-selected={option.value === value}
               tabIndex={open ? 0 : -1}
             >
               <OptionText>{option.label}</OptionText>
-              <OptionCheck $isSelected={option.value === value}>
+              <OptionCheck isSelected={option.value === value}>
                 {option.value === value && (
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                     <path
