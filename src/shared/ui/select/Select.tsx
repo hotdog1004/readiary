@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import React, { forwardRef, useState, useRef, useEffect, useCallback } from 'react'
 import {
   SelectWrapper,

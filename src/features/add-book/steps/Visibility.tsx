@@ -34,6 +34,7 @@ export const Visibility = ({ initialValues, onComplete, onBack }: VisibilityProp
     <>
       <FormLayout id="visibility-form" onSubmit={handleSubmit(onSubmit)}>
         <FormField
+          css={{ alignItems: 'center' }}
           label="공개 여부"
           errorMessage={errors.isPublic?.message}
           helperMessage="체크 시 다른 사용자에게 공개될 수 있어요."

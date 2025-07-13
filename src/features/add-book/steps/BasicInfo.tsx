@@ -202,30 +202,31 @@ export const BasicInfo = ({ initialValues, onComplete }: BasicInfoProps) => {
             )}
           />
         </FormRow>
-
-        <Controller
-          name="totalPages"
-          control={control}
-          render={({ field }) => (
-            <FormField
-              label="도서 전체 페이지 수"
-              required
-              errorMessage={errors.totalPages?.message}
-              helperMessage={
-                isEmptyValue(field.value) && !hasError(errors.totalPages)
-                  ? '전체 페이지 수를 입력해 주세요.'
-                  : undefined
-              }
-            >
-              <NumberField
-                {...field}
-                error={hasError(errors.totalPages)}
-                placeholder="307"
-                min={1}
-              />
-            </FormField>
-          )}
-        />
+        <FormRow>
+          <Controller
+            name="totalPages"
+            control={control}
+            render={({ field }) => (
+              <FormField
+                label="도서 전체 페이지 수"
+                required
+                errorMessage={errors.totalPages?.message}
+                helperMessage={
+                  isEmptyValue(field.value) && !hasError(errors.totalPages)
+                    ? '전체 페이지 수를 입력해 주세요.'
+                    : undefined
+                }
+              >
+                <NumberField
+                  {...field}
+                  error={hasError(errors.totalPages)}
+                  placeholder="307"
+                  min={1}
+                />
+              </FormField>
+            )}
+          />
+        </FormRow>
       </FormLayout>
       {/* TODO: 버튼 form 외부로 분리 */}
       <div style={{ marginTop: '2rem', textAlign: 'center' }}>

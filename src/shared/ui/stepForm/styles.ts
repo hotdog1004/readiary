@@ -1,7 +1,7 @@
 import styled from '@emotion/styled'
 
 export const StepWrapper = styled.div`
-  max-width: 600px;
+  max-width: 750px;
   margin: 0 auto;
   padding: 2rem;
 `
@@ -25,8 +25,14 @@ export const StepDescription = styled.p`
 `
 
 export const StepContent = styled.div`
+  min-height: 500px;
   background: ${({ theme }) => theme.colors.white};
   border-radius: ${({ theme }) => theme.borderRadius.large};
   padding: 2rem;
   box-shadow: ${({ theme }) => theme.shadows.small};
+  display: flex;
+  flex-direction: column;
+  justify-content: center; // 세로 가운데
+  align-items: center; // 가로 가운데
+  width: 100%;
 `

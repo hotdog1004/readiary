@@ -54,7 +54,7 @@ export const Review = ({ initialValues, rating, onComplete, onBack }: ReviewProp
                 value={field.value || ''}
                 error={hasError(errors.review)}
                 placeholder="너무 좋은 책이다!"
-                rows={6}
+                rows={8}
               />
             )}
           />
