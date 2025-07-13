@@ -43,7 +43,7 @@ export const BasicInfo = ({ initialValues, onComplete }: BasicInfoProps) => {
       totalPages: 0,
       publishedDate: '',
     },
-    mode: 'onChange',
+    mode: 'onTouched',
   })
 
   const status = watch('status')
