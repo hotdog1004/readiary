@@ -36,7 +36,7 @@ export const Visibility = ({ initialValues, onComplete, onBack }: VisibilityProp
         <FormField
           label="공개 여부"
           errorMessage={errors.isPublic?.message}
-          helperText="체크 시 다른 사용자에게 공개될 수 있어요."
+          helperMessage="체크 시 다른 사용자에게 공개될 수 있어요."
         >
           <Controller
             name="isPublic"

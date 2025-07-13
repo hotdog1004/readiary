@@ -4,19 +4,20 @@ import {
   Label,
   RequiredMark,
   ErrorMessage,
-  HelperText,
+  HelperMessage,
   MessageContainer,
 } from './styles'
 import type { FormFieldProps } from './types'
 
-export const FormField: React.FC<FormFieldProps> = ({
+export const FormField = ({
   label,
   required = false,
-  error,
-  helperText,
+  errorMessage,
+  helperMessage,
   children,
   className,
-}) => {
+}: FormFieldProps) => {
+  const hasErrorMessage = errorMessage !== undefined && errorMessage.length > 1
   return (
     <FormFieldWrapper className={className}>
       {label && (
@@ -27,8 +28,11 @@ export const FormField: React.FC<FormFieldProps> = ({
       )}
       {children}
       <MessageContainer>
-        {error && <ErrorMessage>{error}</ErrorMessage>}
-        {helperText && !error && <HelperText>{helperText}</HelperText>}
+        {hasErrorMessage ? (
+          <ErrorMessage>{errorMessage}</ErrorMessage>
+        ) : (
+          helperMessage && <HelperMessage>{helperMessage}</HelperMessage>
+        )}
       </MessageContainer>
     </FormFieldWrapper>
   )

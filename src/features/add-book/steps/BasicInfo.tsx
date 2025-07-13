@@ -59,7 +59,7 @@ export const BasicInfo = ({ initialValues, onComplete }: BasicInfoProps) => {
             label="제목"
             required
             errorMessage={errors.title?.message}
-            helperText="제목을 입력해 주세요."
+            helperMessage="제목을 입력해 주세요."
           >
             <Controller
               name="title"
@@ -79,7 +79,7 @@ export const BasicInfo = ({ initialValues, onComplete }: BasicInfoProps) => {
             label="저자"
             required
             errorMessage={errors.author?.message}
-            helperText="저자를 입력해 주세요."
+            helperMessage="저자를 입력해 주세요."
           >
             <Controller
               name="author"
@@ -101,7 +101,7 @@ export const BasicInfo = ({ initialValues, onComplete }: BasicInfoProps) => {
             label="도서 출판일"
             required
             errorMessage={errors.publishedDate?.message}
-            helperText="출판일을 선택해 주세요."
+            helperMessage="출판일을 선택해 주세요."
           >
             <Controller
               name="publishedDate"
@@ -121,7 +121,7 @@ export const BasicInfo = ({ initialValues, onComplete }: BasicInfoProps) => {
             label="상태"
             required
             errorMessage={errors.status?.message}
-            helperText="독서 상태를 선택해 주세요."
+            helperMessage="독서 상태를 선택해 주세요."
           >
             <Controller
               name="status"
@@ -142,7 +142,7 @@ export const BasicInfo = ({ initialValues, onComplete }: BasicInfoProps) => {
           <FormField
             label="시작일"
             errorMessage={errors.startDate?.message}
-            helperText="독서 시작일을 선택해 주세요."
+            helperMessage="독서 시작일을 선택해 주세요."
           >
             <Controller
               name="startDate"
@@ -161,7 +161,7 @@ export const BasicInfo = ({ initialValues, onComplete }: BasicInfoProps) => {
           <FormField
             label="종료일"
             errorMessage={errors.endDate?.message}
-            helperText={status === 'on_hold' ? undefined : '독서 종료일 선택해 주세요'}
+            helperMessage={status === 'on_hold' ? undefined : '독서 종료일 선택해 주세요'}
           >
             <Controller
               name="endDate"
@@ -185,7 +185,7 @@ export const BasicInfo = ({ initialValues, onComplete }: BasicInfoProps) => {
           label="도서 전체 페이지 수"
           required
           errorMessage={errors.totalPages?.message}
-          helperText="전체 페이지 수를 입력해 주세요."
+          helperMessage="전체 페이지 수를 입력해 주세요."
         >
           <Controller
             name="totalPages"

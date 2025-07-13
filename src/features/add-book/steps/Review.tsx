@@ -39,7 +39,7 @@ export const Review = ({ initialValues, rating, onComplete, onBack }: ReviewProp
           label="독후감"
           required={showSpecialMessage}
           errorMessage={errors.review?.message}
-          helperText={
+          helperMessage={
             showSpecialMessage
               ? '최소 100자 이상 입력해 주세요.'
               : '독후감을 입력해 주세요. (선택사항)'

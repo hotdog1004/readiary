@@ -33,7 +33,7 @@ export const ErrorMessage = styled.span`
   line-height: 1.125rem;
 `
 
-export const HelperText = styled.span`
+export const HelperMessage = styled.span`
   font-size: 0.75rem;
   color: ${({ theme }) => theme.colors.gray};
   line-height: 1.125rem;

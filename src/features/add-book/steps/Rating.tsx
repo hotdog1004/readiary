@@ -40,7 +40,7 @@ export const Rating = ({ initialValues, onComplete, onBack }: RatingProps) => {
         <FormField
           label="도서 추천 여부"
           errorMessage={errors.isRecommended?.message}
-          helperText="이 책을 다른 사람에게 추천하시나요?"
+          helperMessage="이 책을 다른 사람에게 추천하시나요?"
         >
           <Controller
             name="isRecommended"
@@ -55,7 +55,7 @@ export const Rating = ({ initialValues, onComplete, onBack }: RatingProps) => {
           label="별점"
           required
           errorMessage={errors.rating?.message}
-          helperText="0.5점 단위로 평가됩니다."
+          helperMessage="0.5점 단위로 평가됩니다."
         >
           <Controller
             name="rating"

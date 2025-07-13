@@ -1,8 +1,8 @@
 export interface FormFieldProps {
   label?: string
   required?: boolean
-  error?: string
-  helperText?: string
+  errorMessage?: string
+  helperMessage?: string
   children: React.ReactNode
   className?: string
 }

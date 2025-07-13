@@ -40,8 +40,8 @@ export const Quote = ({ initialValues, totalPages, onComplete, onBack }: QuotePr
           label="인용구 페이지 번호"
           required
           errorMessage={errors.quotePage?.message}
-          // helperText={`1 ~ ${totalPages - 1} 페이지 중 입력해 주세요.`}
-          helperText={`입력 가능 페이지 : 1p - ${totalPages - 1}p`}
+          // helperMessage={`1 ~ ${totalPages - 1} 페이지 중 입력해 주세요.`}
+          helperMessage={`입력 가능 페이지 : 1p - ${totalPages - 1}p`}
         >
           <Controller
             name="quotePage"
@@ -62,7 +62,7 @@ export const Quote = ({ initialValues, totalPages, onComplete, onBack }: QuotePr
           label="인용구"
           required
           errorMessage={errors.quoteText?.message}
-          helperText="책에서 인상 깊었던 문장을 입력해 주세요."
+          helperMessage="책에서 인상 깊었던 문장을 입력해 주세요."
         >
           <Controller
             name="quoteText"
