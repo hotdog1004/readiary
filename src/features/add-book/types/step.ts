@@ -6,10 +6,9 @@ export enum Step {
   Visibility = 'visibility',
 }
 
-export const stepOrder: Step[] = [
-  Step.BasicInfo,
-  Step.Rating,
-  Step.Review,
-  Step.Quote,
-  Step.Visibility,
-]
+export type StepConfig = {
+  key: Step
+  order: number
+  title: string
+  description: string
+}

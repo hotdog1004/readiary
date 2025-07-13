@@ -1,5 +1,5 @@
 import { BookStatus } from '@/shared/types/book'
-import { Step } from './step'
+import { Step, StepConfig } from './step'
 
 export type BasicInfoFormValues = {
   title: string
@@ -27,16 +27,13 @@ export type VisibilityFormValues = {
 }
 
 export type FormDataByStep = {
-  [Step.BasicInfo]?: BasicInfoFormValues
-  [Step.Rating]?: RatingFormValues
-  [Step.Review]?: ReviewFormValues
-  [Step.Quote]?: QuoteFormValues
-  [Step.Visibility]?: VisibilityFormValues
+  [Step.BasicInfo]: BasicInfoFormValues
+  [Step.Rating]: RatingFormValues
+  [Step.Review]: ReviewFormValues
+  [Step.Quote]: QuoteFormValues
+  [Step.Visibility]: VisibilityFormValues
 }
-
-// 모든 Step의 값을 합친 타입
-export type AllFormValues = BasicInfoFormValues &
-  RatingFormValues &
-  ReviewFormValues &
-  QuoteFormValues &
-  VisibilityFormValues
+export type FormState = {
+  step: Step
+  formData: Partial<FormDataByStep>
+}

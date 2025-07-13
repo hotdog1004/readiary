@@ -1,88 +1,105 @@
 import { useState } from 'react'
-
 import { BasicInfo, Quote, Rating, Review, Visibility } from './steps'
-import { AllFormValues, FormDataByStep, Step, stepOrder } from './types'
+import { FormDataByStep, FormState, Step } from './types'
+import { stepOrder } from './constants'
 
 const AddBookForm = () => {
-  const [step, setStep] = useState<Step>(Step.BasicInfo)
-  const [formData, setFormData] = useState<FormDataByStep>({})
+  const [stepFormState, setStepFormState] = useState<FormState>({
+    step: Step.BasicInfo,
+    formData: {},
+  })
 
-  const currentIndex = stepOrder.indexOf(step)
+  const currentIndex = stepOrder.indexOf(stepFormState.step)
 
-  const handleStepComplete = (stepKey: Step, data: any) => {
-    setFormData((prev) => ({
-      ...prev,
-      [stepKey]: data, // stepId(key)로 저장
-    }))
+  const handleNext = <T extends Step>(stepKey: T, data: FormDataByStep[T]) => {
+    saveStepFormData(stepKey, data)
 
     if (currentIndex < stepOrder.length - 1) {
-      setStep(stepOrder[currentIndex + 1])
-    } else {
-      handleSubmit()
+      setStepFormState((prev) => ({
+        ...prev,
+        step: stepOrder[currentIndex + 1],
+      }))
     }
   }
 
-  const getFinalPayload = (formData: FormDataByStep): AllFormValues => {
-    // 각 스텝의 데이터를 평평하게 합치기
-    return {
-      ...formData[Step.BasicInfo],
-      ...formData[Step.Rating],
-      ...formData[Step.Review],
-      ...formData[Step.Quote],
-      ...formData[Step.Visibility],
-    } as AllFormValues
+  const handleBack = () => {
+    if (currentIndex > 0) {
+      setStepFormState((prev) => ({
+        ...prev,
+        step: stepOrder[currentIndex - 1],
+      }))
+    }
+  }
+
+  const saveStepFormData = <T extends Step>(stepKey: T, data: FormDataByStep[T]) => {
+    setStepFormState((prev) => ({
+      ...prev,
+      formData: { ...prev.formData, [stepKey]: data },
+    }))
+  }
+
+  const handleComplete = <T extends Step>(stepKey: T, data: FormDataByStep[T]) => {
+    saveStepFormData(stepKey, data)
+    handleSubmit()
+  }
+
+  const getFinalPayload = () => {
+    return stepOrder.reduce((finalPayload, stepKey) => {
+      const stepFormData = stepFormState.formData[stepKey]
+      if (stepFormData) {
+        return { ...finalPayload, ...stepFormData }
+      }
+      return finalPayload
+    }, {})
   }
 
   const handleSubmit = () => {
-    const finalPayload = getFinalPayload(formData)
+    const finalPayload = getFinalPayload()
     // TODO: API 호출
     console.log('최종 제출 데이터:', finalPayload)
   }
 
-  const handleBack = () => {
-    if (currentIndex > 0) setStep(stepOrder[currentIndex - 1])
-  }
-
-  switch (step) {
+  // TODO: 각 step form layout 적용(stepConfigs의 title, description 적용)
+  switch (stepFormState.step) {
     case Step.BasicInfo:
       return (
         <BasicInfo
-          initialValues={formData[Step.BasicInfo]}
-          onComplete={(data) => handleStepComplete(Step.BasicInfo, data)}
+          initialValues={stepFormState.formData[Step.BasicInfo]}
+          onComplete={(data) => handleNext(Step.BasicInfo, data)}
         />
       )
     case Step.Rating:
       return (
         <Rating
-          initialValues={formData[Step.Rating]}
-          onComplete={(data) => handleStepComplete(Step.Rating, data)}
+          initialValues={stepFormState.formData[Step.Rating]}
+          onComplete={(data) => handleNext(Step.Rating, data)}
           onBack={handleBack}
         />
       )
     case Step.Review:
       return (
         <Review
-          initialValues={formData[Step.Review]}
-          rating={formData[Step.Rating]?.rating ?? 0}
-          onComplete={(data) => handleStepComplete(Step.Review, data)}
+          initialValues={stepFormState.formData[Step.Review]}
+          rating={stepFormState.formData[Step.Rating]?.rating ?? 0}
+          onComplete={(data) => handleNext(Step.Review, data)}
           onBack={handleBack}
         />
       )
     case Step.Quote:
       return (
         <Quote
-          initialValues={formData[Step.Quote]}
-          totalPages={formData[Step.BasicInfo]?.totalPages ?? 1}
-          onComplete={(data) => handleStepComplete(Step.Quote, data)}
-          onBack={() => setStep(stepOrder[currentIndex - 1])}
+          initialValues={stepFormState.formData[Step.Quote]}
+          totalPages={stepFormState.formData[Step.BasicInfo]?.totalPages ?? 1}
+          onComplete={(data) => handleNext(Step.Quote, data)}
+          onBack={handleBack}
         />
       )
     case Step.Visibility:
       return (
         <Visibility
-          initialValues={formData[Step.Visibility]}
-          onComplete={(data) => handleStepComplete(Step.Visibility, data)}
-          onBack={() => setStep(stepOrder[currentIndex - 1])}
+          initialValues={stepFormState.formData[Step.Visibility]}
+          onComplete={(data) => handleComplete(Step.Visibility, data)}
+          onBack={handleBack}
         />
       )
     default:
