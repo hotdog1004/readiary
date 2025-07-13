@@ -1,10 +1,5 @@
-import type { PropsWithChildren, ButtonHTMLAttributes } from 'react'
-import { StyledButton, ButtonSize, ButtonVariant } from './styles'
-
-interface ButtonProps extends PropsWithChildren, ButtonHTMLAttributes<HTMLButtonElement> {
-  size?: ButtonSize
-  variant?: ButtonVariant
-}
+import { StyledButton } from './styles'
+import type { ButtonProps } from './types'
 
 const Button = ({
   size = 'medium',
