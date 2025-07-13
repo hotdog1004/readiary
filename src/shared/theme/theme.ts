@@ -20,5 +20,12 @@ export const theme = {
     medium: '0 0.25rem 0.5rem rgba(0, 0, 0, 0.15)',
     large: '0 0.5rem 1rem rgba(0, 0, 0, 0.2)',
   },
+  borderRadius: {
+    none: '0',
+    small: '0.1875rem',
+    medium: '0.375rem',
+    large: '0.75rem',
+    full: '50%',
+  },
 }
 export type AppTheme = typeof theme

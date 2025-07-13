@@ -12,7 +12,7 @@ export const StyledInput = styled.input`
   display: flex;
   height: 2.5rem;
   width: 100%;
-  border-radius: 0.375rem;
+  border-radius: ${({ theme }) => theme.borderRadius.medium};
   border: 1px solid ${({ theme }) => theme.colors.grayLight};
   background-color: ${({ theme }) => theme.colors.white};
   padding: 0.5rem 2.25rem 0.5rem 0.75rem;
@@ -65,7 +65,7 @@ export const ClearButton = styled(Button)`
   width: 1.25rem;
   height: 1.25rem;
   padding: 0;
-  border-radius: 50%;
+  border-radius: ${({ theme }) => theme.borderRadius.full};
   font-size: 1rem;
   line-height: 1;
   display: flex;
