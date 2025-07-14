@@ -40,8 +40,11 @@ export const SelectValue = styled.span`
   text-align: left;
   color: ${({ theme }) => theme.colors.text};
 
-  &[data-placeholder] {
+  &[data-placeholder='true'] {
     color: ${({ theme }) => theme.colors.grayLight};
+  }
+  &[data-placeholder='false'] {
+    color: ${({ theme }) => theme.colors.text};
   }
 `
 
