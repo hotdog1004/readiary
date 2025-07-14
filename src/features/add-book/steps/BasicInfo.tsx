@@ -31,6 +31,7 @@ export const BasicInfo = ({ initialValues, onComplete }: BasicInfoProps) => {
     handleSubmit,
     formState: { errors },
     watch,
+    trigger,
   } = useForm<BasicInfoFormValues>({
     resolver: zodResolver(BasicInfoSchema),
     // TODO: 폼 데이터 로드 로직을 관리하는 커스텀 훅 구현 후 각 스텝 폼에서 사용하는 방식으로 변경
@@ -121,7 +122,10 @@ export const BasicInfo = ({ initialValues, onComplete }: BasicInfoProps) => {
               >
                 <DatePicker
                   value={field.value ? new Date(field.value) : null}
-                  onChange={(date) => field.onChange(date?.toISOString().split('T')[0])}
+                  onChange={(date) => {
+                    field.onChange(date?.toISOString().split('T')[0])
+                    trigger()
+                  }}
                   error={hasError(errors.publishedDate)}
                   placeholder="yyyy.MM.dd"
                 />
@@ -146,7 +150,10 @@ export const BasicInfo = ({ initialValues, onComplete }: BasicInfoProps) => {
                 <Select
                   error={hasError(errors.status)}
                   value={field.value}
-                  onChange={field.onChange}
+                  onChange={(value) => {
+                    field.onChange(value)
+                    trigger()
+                  }}
                   options={statusOptions}
                   placeholder="상태를 선택하세요."
                 />
@@ -172,7 +179,10 @@ export const BasicInfo = ({ initialValues, onComplete }: BasicInfoProps) => {
               >
                 <DatePicker
                   value={field.value ? new Date(field.value) : null}
-                  onChange={(date) => field.onChange(date?.toISOString().split('T')[0])}
+                  onChange={(date) => {
+                    field.onChange(date?.toISOString().split('T')[0])
+                    trigger()
+                  }}
                   error={hasError(errors.startDate)}
                   placeholder="yyyy.MM.dd"
                 />
@@ -194,7 +204,10 @@ export const BasicInfo = ({ initialValues, onComplete }: BasicInfoProps) => {
               >
                 <DatePicker
                   value={field.value ? new Date(field.value) : null}
-                  onChange={(date) => field.onChange(date?.toISOString().split('T')[0])}
+                  onChange={(date) => {
+                    field.onChange(date?.toISOString().split('T')[0])
+                    trigger()
+                  }}
                   error={hasError(errors.endDate)}
                   placeholder="yyyy.MM.dd"
                 />
