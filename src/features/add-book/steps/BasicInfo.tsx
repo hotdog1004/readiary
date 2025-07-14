@@ -9,7 +9,7 @@ import { NumberField, TextField } from '@/shared/ui/textField'
 import { DatePicker } from '@/shared/ui/datePicker'
 import { Select } from '@/shared/ui/select'
 import { Button } from '@/shared/ui/button'
-import { hasError, isEmptyValue } from '../utils'
+import { formatDateString, hasError, isEmptyValue } from '../utils'
 
 interface BasicInfoProps {
   initialValues?: BasicInfoFormValues //  상위에서 전달받은 이전 값
@@ -123,7 +123,11 @@ export const BasicInfo = ({ initialValues, onComplete }: BasicInfoProps) => {
                 <DatePicker
                   value={field.value ? new Date(field.value) : null}
                   onChange={(date) => {
-                    field.onChange(date?.toISOString().split('T')[0])
+                    field.onChange(formatDateString(date))
+                    trigger()
+                  }}
+                  onClear={() => {
+                    field.onChange('')
                     trigger()
                   }}
                   error={hasError(errors.publishedDate)}
@@ -180,7 +184,11 @@ export const BasicInfo = ({ initialValues, onComplete }: BasicInfoProps) => {
                 <DatePicker
                   value={field.value ? new Date(field.value) : null}
                   onChange={(date) => {
-                    field.onChange(date?.toISOString().split('T')[0])
+                    field.onChange(formatDateString(date))
+                    trigger()
+                  }}
+                  onClear={() => {
+                    field.onChange('')
                     trigger()
                   }}
                   error={hasError(errors.startDate)}
@@ -205,7 +213,11 @@ export const BasicInfo = ({ initialValues, onComplete }: BasicInfoProps) => {
                 <DatePicker
                   value={field.value ? new Date(field.value) : null}
                   onChange={(date) => {
-                    field.onChange(date?.toISOString().split('T')[0])
+                    field.onChange(formatDateString(date))
+                    trigger()
+                  }}
+                  onClear={() => {
+                    field.onChange('')
                     trigger()
                   }}
                   error={hasError(errors.endDate)}

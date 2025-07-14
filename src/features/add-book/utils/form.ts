@@ -10,3 +10,6 @@ export const isEmptyValue = (value: unknown): boolean => {
     (typeof value === 'number' && isNaN(value))
   )
 }
+
+export const formatDateString = (date?: Date | null) =>
+  date ? date.toISOString().split('T')[0] : ''
