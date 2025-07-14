@@ -1,2 +1,2 @@
 export * from './form'
-export * from './validation'
+export * from './basicInfo/validation'
