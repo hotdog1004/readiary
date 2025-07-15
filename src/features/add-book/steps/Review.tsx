@@ -7,14 +7,15 @@ import { FormField } from '@/shared/ui/formField'
 import { Textarea } from '@/shared/ui/textarea'
 import { Button } from '@/shared/ui/button'
 import { hasError } from '../utils'
+
 interface ReviewProps {
   initialValues?: ReviewFormValues
   rating: number // 상위에서 전달받음 (별점)
-  onComplete: (data: ReviewFormValues) => void
+  onNext: (data: ReviewFormValues) => void
   onBack: () => void
 }
 
-export const Review = ({ initialValues, rating, onComplete, onBack }: ReviewProps) => {
+export const Review = ({ initialValues, rating, onNext, onBack }: ReviewProps) => {
   const {
     control,
     handleSubmit,
@@ -28,7 +29,7 @@ export const Review = ({ initialValues, rating, onComplete, onBack }: ReviewProp
   })
 
   const onSubmit = (data: ReviewFormValues) => {
-    onComplete(data)
+    onNext(data)
   }
   const showSpecialMessage = rating === 1 || rating === 5
 

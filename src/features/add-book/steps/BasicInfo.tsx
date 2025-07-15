@@ -13,7 +13,7 @@ import { formatDateString, hasError, isEmptyValue } from '../utils'
 
 interface BasicInfoProps {
   initialValues?: BasicInfoFormValues //  상위에서 전달받은 이전 값
-  onComplete: (data: BasicInfoFormValues) => void
+  onNext: (data: BasicInfoFormValues) => void
 }
 
 const statusOptions = BOOK_STATUS_VALUES.map((value) => ({
@@ -21,7 +21,7 @@ const statusOptions = BOOK_STATUS_VALUES.map((value) => ({
   label: BOOK_STATUS_LABELS[value],
 }))
 
-export const BasicInfo = ({ initialValues, onComplete }: BasicInfoProps) => {
+export const BasicInfo = ({ initialValues, onNext }: BasicInfoProps) => {
   /**
    * - useForm, 상태, 에러, 검증 모두 Step 내부에서만 관리
    * - 상위는 onComplete로 결과만 받음
@@ -50,7 +50,7 @@ export const BasicInfo = ({ initialValues, onComplete }: BasicInfoProps) => {
   const status = watch('status')
 
   const onSubmit = (data: BasicInfoFormValues) => {
-    onComplete(data) // 상위에 결과만 전달
+    onNext(data) // 상위에 결과만 전달
   }
   return (
     <>

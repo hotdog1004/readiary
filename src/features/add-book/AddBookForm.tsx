@@ -61,21 +61,20 @@ const AddBookForm = () => {
     console.log('최종 제출 데이터:', finalPayload)
   }
 
-  // TODO: 각 step form layout 적용(stepConfigs의 title, description 적용)
   const renderStep = () => {
     switch (stepFormState.step) {
       case Step.BasicInfo:
         return (
           <BasicInfo
             initialValues={stepFormState.formData[Step.BasicInfo]}
-            onComplete={(data) => handleNext(Step.BasicInfo, data)}
+            onNext={(data) => handleNext(Step.BasicInfo, data)}
           />
         )
       case Step.Rating:
         return (
           <Rating
             initialValues={stepFormState.formData[Step.Rating]}
-            onComplete={(data) => handleNext(Step.Rating, data)}
+            onNext={(data) => handleNext(Step.Rating, data)}
             onBack={handleBack}
           />
         )
@@ -84,7 +83,7 @@ const AddBookForm = () => {
           <Review
             initialValues={stepFormState.formData[Step.Review]}
             rating={stepFormState.formData[Step.Rating]?.rating ?? 0}
-            onComplete={(data) => handleNext(Step.Review, data)}
+            onNext={(data) => handleNext(Step.Review, data)}
             onBack={handleBack}
           />
         )
@@ -93,7 +92,7 @@ const AddBookForm = () => {
           <Quote
             initialValues={stepFormState.formData[Step.Quote]}
             totalPages={stepFormState.formData[Step.BasicInfo]?.totalPages ?? 1}
-            onComplete={(data) => handleNext(Step.Quote, data)}
+            onNext={(data) => handleNext(Step.Quote, data)}
             onBack={handleBack}
           />
         )

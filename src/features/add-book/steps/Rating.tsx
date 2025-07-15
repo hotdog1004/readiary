@@ -8,13 +8,14 @@ import { Checkbox } from '@/shared/ui/checkbox'
 import { FormLayout } from '@/shared/ui/formLayout'
 import { Button } from '@/shared/ui/button'
 import { Range } from '@/shared/ui/range'
+
 interface RatingProps {
   initialValues?: RatingFormValues
-  onComplete: (data: RatingFormValues) => void
+  onNext: (data: RatingFormValues) => void
   onBack: () => void
 }
 
-export const Rating = ({ initialValues, onComplete, onBack }: RatingProps) => {
+export const Rating = ({ initialValues, onNext, onBack }: RatingProps) => {
   const {
     control,
     handleSubmit,
@@ -28,10 +29,8 @@ export const Rating = ({ initialValues, onComplete, onBack }: RatingProps) => {
     mode: 'onTouched',
   })
 
-  const ratingOptions = Array.from({ length: 11 }, (_, i) => i * 0.5)
-
   const onSubmit = (data: RatingFormValues) => {
-    onComplete(data)
+    onNext(data)
   }
 
   return (

@@ -8,14 +8,15 @@ import { NumberField } from '@/shared/ui/textField'
 import { Textarea } from '@/shared/ui/textarea'
 import { Button } from '@/shared/ui/button'
 import { hasError } from '../utils'
+
 interface QuoteProps {
   initialValues?: QuoteFormValues
   totalPages: number // 도서 전체 페이지 수 (상위에서 전달)
-  onComplete: (data: QuoteFormValues) => void // 결과만 상위에 전달
+  onNext: (data: QuoteFormValues) => void // 결과만 상위에 전달
   onBack: () => void
 }
 
-export const Quote = ({ initialValues, totalPages, onComplete, onBack }: QuoteProps) => {
+export const Quote = ({ initialValues, totalPages, onNext, onBack }: QuoteProps) => {
   const {
     control,
     handleSubmit,
@@ -30,7 +31,7 @@ export const Quote = ({ initialValues, totalPages, onComplete, onBack }: QuotePr
   })
 
   const onSubmit = (data: QuoteFormValues) => {
-    onComplete(data)
+    onNext(data)
   }
 
   return (
