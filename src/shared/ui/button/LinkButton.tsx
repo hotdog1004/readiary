@@ -1,11 +1,5 @@
-import type { PropsWithChildren } from 'react'
-import { ButtonSize, ButtonVariant, StyledLink } from './styles'
-
-interface LinkButtonProps extends PropsWithChildren {
-  href: string
-  size?: ButtonSize
-  variant?: ButtonVariant
-}
+import { StyledLink } from './styles'
+import type { LinkButtonProps } from './types'
 
 const LinkButton = ({
   href,
