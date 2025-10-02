@@ -3,6 +3,7 @@ import { BasicInfo, Quote, Rating, Review, Visibility } from './steps'
 import { FormDataByStep, FormState, Step } from './types'
 import { stepConfigs, stepOrder } from './constants'
 import { StepLayout } from '@/shared/ui/stepForm/StepLayout'
+import { SwitchCases } from '@/shared/ui/switchCases'
 
 const AddBookForm = () => {
   const [stepFormState, setStepFormState] = useState<FormState>({
@@ -61,56 +62,49 @@ const AddBookForm = () => {
     console.log('최종 제출 데이터:', finalPayload)
   }
 
-  const renderStep = () => {
-    switch (stepFormState.step) {
-      case Step.BasicInfo:
-        return (
-          <BasicInfo
-            initialValues={stepFormState.formData[Step.BasicInfo]}
-            onNext={(data) => handleNext(Step.BasicInfo, data)}
-          />
-        )
-      case Step.Rating:
-        return (
-          <Rating
-            initialValues={stepFormState.formData[Step.Rating]}
-            onNext={(data) => handleNext(Step.Rating, data)}
-            onBack={handleBack}
-          />
-        )
-      case Step.Review:
-        return (
-          <Review
-            initialValues={stepFormState.formData[Step.Review]}
-            rating={stepFormState.formData[Step.Rating]?.rating ?? 0}
-            onNext={(data) => handleNext(Step.Review, data)}
-            onBack={handleBack}
-          />
-        )
-      case Step.Quote:
-        return (
-          <Quote
-            initialValues={stepFormState.formData[Step.Quote]}
-            totalPages={stepFormState.formData[Step.BasicInfo]?.totalPages ?? 1}
-            onNext={(data) => handleNext(Step.Quote, data)}
-            onBack={handleBack}
-          />
-        )
-      case Step.Visibility:
-        return (
-          <Visibility
-            initialValues={stepFormState.formData[Step.Visibility]}
-            onComplete={(data) => handleComplete(Step.Visibility, data)}
-            onBack={handleBack}
-          />
-        )
-      default:
-        return null
-    }
-  }
   return (
     <StepLayout title={currentStepConfig.title} description={currentStepConfig.description}>
-      {renderStep()}
+      <SwitchCases
+        value={stepFormState.step}
+        cases={{
+          [Step.BasicInfo]: (
+            <BasicInfo
+              initialValues={stepFormState.formData[Step.BasicInfo]}
+              onNext={(data) => handleNext(Step.BasicInfo, data)}
+            />
+          ),
+          [Step.Rating]: (
+            <Rating
+              initialValues={stepFormState.formData[Step.Rating]}
+              onNext={(data) => handleNext(Step.Rating, data)}
+              onBack={handleBack}
+            />
+          ),
+          [Step.Review]: (
+            <Review
+              initialValues={stepFormState.formData[Step.Review]}
+              rating={stepFormState.formData[Step.Rating]?.rating ?? 0}
+              onNext={(data) => handleNext(Step.Review, data)}
+              onBack={handleBack}
+            />
+          ),
+          [Step.Quote]: (
+            <Quote
+              initialValues={stepFormState.formData[Step.Quote]}
+              totalPages={stepFormState.formData[Step.BasicInfo]?.totalPages ?? 1}
+              onNext={(data) => handleNext(Step.Quote, data)}
+              onBack={handleBack}
+            />
+          ),
+          [Step.Visibility]: (
+            <Visibility
+              initialValues={stepFormState.formData[Step.Visibility]}
+              onComplete={(data) => handleComplete(Step.Visibility, data)}
+              onBack={handleBack}
+            />
+          ),
+        }}
+      />
     </StepLayout>
   )
 }
