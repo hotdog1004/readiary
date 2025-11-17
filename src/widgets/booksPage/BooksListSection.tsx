@@ -1,7 +1,7 @@
 import { BookGrid, Container, EmptyIcon, EmptyState, Header, Title } from './styles'
 import { LinkButton } from '@/shared/ui/button'
 import BookCard from '@/entities/book'
-import { Book } from '@/shared/types/book'
+import { Book } from '@/shared/types'
 
 interface BooksListSectionProps {
   books: Book[]

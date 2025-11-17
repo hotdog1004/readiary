@@ -1,17 +1,15 @@
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { BasicInfoFormValues } from '../types/formTypes'
-import { BOOK_STATUS_LABELS, BOOK_STATUS_VALUES, BookStatus } from '@/shared/types/book'
 import { BasicInfoSchema } from '../schemas'
 import { FormLayout, FormRow } from '@/shared/ui/formLayout'
 import { FormField } from '@/shared/ui/formField'
-import { NumberField, TextField } from '@/shared/ui/textField'
-import { DatePicker } from '@/shared/ui/datePicker'
+import { NumberField } from '@/shared/ui/textField'
 import { Select } from '@/shared/ui/select'
 import { Button } from '@/shared/ui/button'
-import { formatDateString, hasError, isEmptyValue } from '../utils'
-import { RHFTextField } from '@/shared/ui/formField/rhf/RHFTextField'
-import { RHFDatePicker } from '@/shared/ui/formField/rhf/RHFDatePicker'
+import { RHFDatePicker, RHFTextField } from '@/shared/ui/formField/rhf'
+import { hasError, isEmptyValue } from '@/shared/utils'
+import { BOOK_STATUS_LABELS, BOOK_STATUS_VALUES } from '@/shared/types'
 
 interface BasicInfoProps {
   initialValues?: BasicInfoFormValues //  상위에서 전달받은 이전 값

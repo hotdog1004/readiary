@@ -1,4 +1,4 @@
-import { BookStatus } from '@/shared/types/book'
+import { BookStatus } from '@/shared/types'
 
 export type ValidationRuleType = 'required' | 'forbidden'
 export type FieldValidationRule = { type: ValidationRuleType; message?: string }

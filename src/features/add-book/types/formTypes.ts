@@ -1,4 +1,4 @@
-import { BookStatus } from '@/shared/types/book'
+import { BookStatus } from '@/shared/types'
 import { Step } from './step'
 
 export type BasicInfoFormValues = {

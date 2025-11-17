@@ -7,7 +7,7 @@ import { FormLayout } from '@/shared/ui/formLayout'
 import { NumberField } from '@/shared/ui/textField'
 import { Textarea } from '@/shared/ui/textarea'
 import { Button } from '@/shared/ui/button'
-import { hasError } from '../utils'
+import { hasError } from '@/shared/utils'
 
 interface QuoteProps {
   initialValues?: QuoteFormValues

@@ -1,5 +1,5 @@
+import { BookStatus } from '@/shared/types'
 import styled from '@emotion/styled'
-import type { BookStatus } from '@/shared/types/book'
 
 const StatusBadge = styled.span<{ status: BookStatus }>`
   background: ${({ status, theme }) => {

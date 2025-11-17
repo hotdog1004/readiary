@@ -6,7 +6,7 @@ import { FormLayout } from '@/shared/ui/formLayout'
 import { FormField } from '@/shared/ui/formField'
 import { Textarea } from '@/shared/ui/textarea'
 import { Button } from '@/shared/ui/button'
-import { hasError } from '../utils'
+import { hasError } from '@/shared/utils'
 
 interface ReviewProps {
   initialValues?: ReviewFormValues

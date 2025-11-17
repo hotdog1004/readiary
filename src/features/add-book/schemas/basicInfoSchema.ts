@@ -1,6 +1,6 @@
-import { BOOK_STATUS_VALUES } from '@/shared/types/book'
 import z from 'zod'
 import { validateDateRules, validateStatusRules } from '../utils'
+import { BOOK_STATUS_VALUES } from '@/shared/types'
 
 export const BasicInfoSchema = z
   .object({

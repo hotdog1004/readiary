@@ -1,7 +1,7 @@
 import { Control, Controller, FieldError, FieldPath, FieldValues } from 'react-hook-form'
 import { FormField } from '../FormField'
 import { DatePicker } from '../../datePicker'
-import { formatDateString, hasError, isEmptyValue } from '@/features/add-book/utils'
+import { formatDateString, hasError, isEmptyValue } from '@/shared/utils'
 
 interface RHFDatePickerProps<TFieldValues extends FieldValues> {
   control: Control<TFieldValues>
