@@ -10,6 +10,7 @@ import { DatePicker } from '@/shared/ui/datePicker'
 import { Select } from '@/shared/ui/select'
 import { Button } from '@/shared/ui/button'
 import { formatDateString, hasError, isEmptyValue } from '../utils'
+import { RHFTextField } from '@/shared/ui/formField/rhf/RHFTextField'
 
 interface BasicInfoProps {
   initialValues?: BasicInfoFormValues //  상위에서 전달받은 이전 값
@@ -56,52 +57,23 @@ export const BasicInfo = ({ initialValues, onNext }: BasicInfoProps) => {
     <>
       <FormLayout id="basic-info-form" onSubmit={handleSubmit(onSubmit)}>
         <FormRow>
-          <Controller
+          <RHFTextField
+            control={control}
             name="title"
-            control={control}
-            render={({ field }) => (
-              <FormField
-                label="제목"
-                required
-                errorMessage={errors.title?.message}
-                helperMessage={
-                  isEmptyValue(field.value) && !hasError(errors.title)
-                    ? '제목을 입력해 주세요.'
-                    : undefined
-                }
-              >
-                <TextField
-                  {...field}
-                  error={hasError(errors.title)}
-                  placeholder="모순"
-                  onClear={() => field.onChange('')}
-                />
-              </FormField>
-            )}
+            error={errors.title}
+            label="제목"
+            required
+            helperMessage="제목을 입력해 주세요."
+            placeholder="모순"
           />
-
-          <Controller
-            name="author"
+          <RHFTextField
             control={control}
-            render={({ field }) => (
-              <FormField
-                label="저자"
-                required
-                errorMessage={errors.author?.message}
-                helperMessage={
-                  isEmptyValue(field.value) && !hasError(errors.author)
-                    ? '저자를 입력해 주세요.'
-                    : undefined
-                }
-              >
-                <TextField
-                  {...field}
-                  error={hasError(errors.author)}
-                  placeholder="양귀자"
-                  onClear={() => field.onChange('')}
-                />
-              </FormField>
-            )}
+            name="author"
+            error={errors.author}
+            label="저자"
+            required
+            helperMessage="저자를 입력해 주세요."
+            placeholder="양귀자"
           />
         </FormRow>
 
