@@ -11,6 +11,7 @@ import { Select } from '@/shared/ui/select'
 import { Button } from '@/shared/ui/button'
 import { formatDateString, hasError, isEmptyValue } from '../utils'
 import { RHFTextField } from '@/shared/ui/formField/rhf/RHFTextField'
+import { RHFDatePicker } from '@/shared/ui/formField/rhf/RHFDatePicker'
 
 interface BasicInfoProps {
   initialValues?: BasicInfoFormValues //  상위에서 전달받은 이전 값
@@ -78,35 +79,15 @@ export const BasicInfo = ({ initialValues, onNext }: BasicInfoProps) => {
         </FormRow>
 
         <FormRow>
-          <Controller
-            name="publishedDate"
+          <RHFDatePicker
             control={control}
-            render={({ field }) => (
-              <FormField
-                label="도서 출판일"
-                required
-                errorMessage={errors.publishedDate?.message}
-                helperMessage={
-                  isEmptyValue(field.value) && !hasError(errors.publishedDate)
-                    ? '출판일을 선택해 주세요.'
-                    : undefined
-                }
-              >
-                <DatePicker
-                  value={field.value ? new Date(field.value) : null}
-                  onChange={(date) => {
-                    field.onChange(formatDateString(date))
-                    trigger()
-                  }}
-                  onClear={() => {
-                    field.onChange('')
-                    trigger()
-                  }}
-                  error={hasError(errors.publishedDate)}
-                  placeholder="yyyy.MM.dd"
-                />
-              </FormField>
-            )}
+            name="publishedDate"
+            error={errors.publishedDate}
+            label="도서 출판일"
+            required
+            helperMessage="출판일을 선택해 주세요."
+            placeholder="yyyy.MM.dd"
+            onTrigger={trigger}
           />
 
           <Controller
@@ -138,65 +119,24 @@ export const BasicInfo = ({ initialValues, onNext }: BasicInfoProps) => {
           />
         </FormRow>
         <FormRow>
-          <Controller
+          <RHFDatePicker
+            control={control}
             name="startDate"
-            control={control}
-            render={({ field }) => (
-              <FormField
-                label="시작일"
-                errorMessage={errors.startDate?.message}
-                helperMessage={
-                  isEmptyValue(field.value) &&
-                  !hasError(errors.startDate) &&
-                  status !== 'want_to_read'
-                    ? '독서 시작일을 선택해 주세요.'
-                    : undefined
-                }
-              >
-                <DatePicker
-                  value={field.value ? new Date(field.value) : null}
-                  onChange={(date) => {
-                    field.onChange(formatDateString(date))
-                    trigger()
-                  }}
-                  onClear={() => {
-                    field.onChange('')
-                    trigger()
-                  }}
-                  error={hasError(errors.startDate)}
-                  placeholder="yyyy.MM.dd"
-                />
-              </FormField>
-            )}
+            error={errors.startDate}
+            label="시작일"
+            helperMessage={status !== 'want_to_read' ? '독서 시작일을 선택해 주세요.' : undefined}
+            placeholder="yyyy.MM.dd"
+            onTrigger={trigger}
           />
-          <Controller
-            name="endDate"
+
+          <RHFDatePicker
             control={control}
-            render={({ field }) => (
-              <FormField
-                label="종료일"
-                errorMessage={errors.endDate?.message}
-                helperMessage={
-                  isEmptyValue(field.value) && !hasError(errors.endDate) && status === 'finished'
-                    ? '독서 종료일을 선택해 주세요.'
-                    : undefined
-                }
-              >
-                <DatePicker
-                  value={field.value ? new Date(field.value) : null}
-                  onChange={(date) => {
-                    field.onChange(formatDateString(date))
-                    trigger()
-                  }}
-                  onClear={() => {
-                    field.onChange('')
-                    trigger()
-                  }}
-                  error={hasError(errors.endDate)}
-                  placeholder="yyyy.MM.dd"
-                />
-              </FormField>
-            )}
+            name="endDate"
+            error={errors.endDate}
+            label="종료일"
+            helperMessage={status === 'finished' ? '독서 종료일을 선택해 주세요.' : undefined}
+            placeholder="yyyy.MM.dd"
+            onTrigger={trigger}
           />
         </FormRow>
         <FormRow>
