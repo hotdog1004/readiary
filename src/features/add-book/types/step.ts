@@ -7,8 +7,6 @@ export enum Step {
 }
 
 export type StepConfig = {
-  key: Step
-  order: number
   title: string
   description: string
 }
