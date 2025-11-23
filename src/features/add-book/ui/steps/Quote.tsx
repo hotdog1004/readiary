@@ -1,10 +1,10 @@
 import { useFormContext } from 'react-hook-form'
-import { AddBookFormValues } from '../types/formTypes'
+import { AddBookFormValues } from '../../types/formTypes'
 import { FormLayout } from '@/shared/ui/formLayout'
-import { Button } from '@/shared/ui/button'
 import { FormEvent } from 'react'
 import { RHFNumberField, RHFTextarea } from '@/shared/ui/formField/rhf'
-import { useStepNavigation } from '../hooks/useStepNavigation'
+import { useStepNavigation } from '../../hooks/useStepNavigation'
+import { StepNavigationButtons } from '../StepNavigationButtons'
 
 export const Quote = () => {
   const {
@@ -43,7 +43,6 @@ export const Quote = () => {
           min={1}
           max={totalPages}
         />
-
         <RHFTextarea
           control={control}
           name="quoteText"
@@ -54,23 +53,7 @@ export const Quote = () => {
           rows={6}
         />
       </FormLayout>
-
-      <div
-        style={{
-          marginTop: '2rem',
-          textAlign: 'center',
-          display: 'flex',
-          gap: '1rem',
-          justifyContent: 'center',
-        }}
-      >
-        <Button size="small" variant="gray" onClick={onBack}>
-          이전
-        </Button>
-        <Button size="small" type="submit" form="quote-form">
-          다음
-        </Button>
-      </div>
+      <StepNavigationButtons formId="quote-form" />
     </>
   )
 }

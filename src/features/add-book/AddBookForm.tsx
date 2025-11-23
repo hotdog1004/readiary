@@ -1,4 +1,3 @@
-import { BasicInfo, Quote, Rating, Review, Visibility } from './steps'
 import { Step } from './types'
 import { stepConfigs } from './constants'
 import { StepLayout } from '@/shared/ui/stepForm/StepLayout'
@@ -7,6 +6,7 @@ import { useAddBookForm } from './hooks/useAddBookForm'
 import { FormProvider } from 'react-hook-form'
 import { useRouter } from 'next/router'
 import { getCurrentStep } from './utils/step/stepNavigation'
+import { BasicInfo, Quote, Rating, Review, Visibility } from './ui'
 
 const AddBookForm = () => {
   const form = useAddBookForm()

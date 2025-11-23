@@ -1,12 +1,13 @@
 import { useFormContext } from 'react-hook-form'
-import { AddBookFormValues } from '../types/formTypes'
+import { AddBookFormValues } from '../../types/formTypes'
 import { FormLayout, FormRow } from '@/shared/ui/formLayout'
 import { Button } from '@/shared/ui/button'
 import { RHFDatePicker, RHFNumberField, RHFTextField } from '@/shared/ui/formField/rhf'
 import { BOOK_STATUS_LABELS, BOOK_STATUS_VALUES } from '@/shared/types'
 import { FormEvent } from 'react'
 import { RHFSelect } from '@/shared/ui/formField/rhf/RHFSelect'
-import { useStepNavigation } from '../hooks/useStepNavigation'
+import { useStepNavigation } from '../../hooks/useStepNavigation'
+import { StepNavigationButtons } from '../StepNavigationButtons'
 
 const statusOptions = BOOK_STATUS_VALUES.map((value) => ({
   value,
@@ -66,7 +67,6 @@ export const BasicInfo = () => {
             placeholder="양귀자"
           />
         </FormRow>
-
         <FormRow>
           <RHFDatePicker
             control={control}
@@ -78,7 +78,6 @@ export const BasicInfo = () => {
             placeholder="yyyy.MM.dd"
             onTrigger={trigger}
           />
-
           <RHFSelect
             control={control}
             name="status"
@@ -101,7 +100,6 @@ export const BasicInfo = () => {
             placeholder="yyyy.MM.dd"
             onTrigger={trigger}
           />
-
           <RHFDatePicker
             control={control}
             name="endDate"
@@ -125,12 +123,7 @@ export const BasicInfo = () => {
           />
         </FormRow>
       </FormLayout>
-      {/* TODO: 버튼 form 외부로 분리 */}
-      <div style={{ marginTop: '2rem', textAlign: 'center' }}>
-        <Button size="small" type="submit" form="basic-info-form">
-          다음
-        </Button>
-      </div>
+      <StepNavigationButtons formId="basic-info-form" />
     </>
   )
 }

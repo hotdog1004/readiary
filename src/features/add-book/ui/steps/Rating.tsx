@@ -1,10 +1,10 @@
 import { useFormContext } from 'react-hook-form'
-import { AddBookFormValues } from '../types/formTypes'
+import { AddBookFormValues } from '../../types/formTypes'
 import { FormLayout } from '@/shared/ui/formLayout'
-import { Button } from '@/shared/ui/button'
 import { FormEvent } from 'react'
 import { RHFCheckbox, RHFRange } from '@/shared/ui/formField/rhf'
-import { useStepNavigation } from '../hooks/useStepNavigation'
+import { useStepNavigation } from '../../hooks/useStepNavigation'
+import { StepNavigationButtons } from '../StepNavigationButtons'
 
 export const Rating = () => {
   const {
@@ -37,7 +37,6 @@ export const Rating = () => {
           helperMessage="이 책을 다른 사람에게 추천하시나요?"
           checkboxLabel="추천"
         />
-
         <RHFRange
           control={control}
           name="rating"
@@ -50,23 +49,7 @@ export const Rating = () => {
           step={0.5}
         />
       </FormLayout>
-
-      <div
-        style={{
-          marginTop: '2rem',
-          textAlign: 'center',
-          display: 'flex',
-          gap: '1rem',
-          justifyContent: 'center',
-        }}
-      >
-        <Button size="small" variant="gray" onClick={onBack}>
-          이전
-        </Button>
-        <Button size="small" type="submit" form="rating-form">
-          다음
-        </Button>
-      </div>
+      <StepNavigationButtons formId="rating-form" />
     </>
   )
 }

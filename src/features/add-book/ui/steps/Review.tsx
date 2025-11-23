@@ -1,10 +1,10 @@
 import { useFormContext } from 'react-hook-form'
-import { AddBookFormValues } from '../types/formTypes'
+import { AddBookFormValues } from '../../types/formTypes'
 import { FormLayout } from '@/shared/ui/formLayout'
-import { Button } from '@/shared/ui/button'
 import { FormEvent } from 'react'
 import { RHFTextarea } from '@/shared/ui/formField/rhf'
-import { useStepNavigation } from '../hooks/useStepNavigation'
+import { useStepNavigation } from '../../hooks/useStepNavigation'
+import { StepNavigationButtons } from '../StepNavigationButtons'
 
 export const Review = () => {
   const {
@@ -48,23 +48,7 @@ export const Review = () => {
           placeholder="너무 좋은 책이다!"
         />
       </FormLayout>
-
-      <div
-        style={{
-          marginTop: '2rem',
-          textAlign: 'center',
-          display: 'flex',
-          gap: '1rem',
-          justifyContent: 'center',
-        }}
-      >
-        <Button size="small" variant="gray" onClick={onBack}>
-          이전
-        </Button>
-        <Button size="small" type="submit" form="review-form">
-          다음
-        </Button>
-      </div>
+      <StepNavigationButtons formId="review-form" />
     </>
   )
 }
