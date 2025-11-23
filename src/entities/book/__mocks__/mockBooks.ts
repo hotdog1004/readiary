@@ -1,4 +1,4 @@
-import { Book } from '@/shared/types/book'
+import { Book } from '@/shared/types'
 
 export const mockBooks: Book[] = [
   {

@@ -1,10 +1,9 @@
-import { BookStatus } from '@/shared/types/book'
-import { Step, StepConfig } from './step'
+import { BookStatus } from '@/shared/types'
 
 export type BasicInfoFormValues = {
   title: string
   author: string
-  totalPages: number // 도서 전체 페이지 수
+  totalPages: number
   publishedDate: string
   status: BookStatus
   startDate?: string
@@ -12,28 +11,22 @@ export type BasicInfoFormValues = {
 }
 
 export type RatingFormValues = {
-  isRecommended: boolean // 추천 여부
-  rating: number // 별점 (0~5, 0.5 단위)
+  isRecommended: boolean
+  rating: number
 }
 export type ReviewFormValues = {
   review?: string
 }
 export type QuoteFormValues = {
-  quotePage: number // 인용구 페이지
-  quoteText: string // 인용구 텍스트
+  quotePage: number
+  quoteText: string
 }
 export type VisibilityFormValues = {
-  isPublic: boolean // 공개 여부
+  isPublic: boolean
 }
 
-export type FormDataByStep = {
-  [Step.BasicInfo]: BasicInfoFormValues
-  [Step.Rating]: RatingFormValues
-  [Step.Review]: ReviewFormValues
-  [Step.Quote]: QuoteFormValues
-  [Step.Visibility]: VisibilityFormValues
-}
-export type FormState = {
-  step: Step
-  formData: Partial<FormDataByStep>
-}
+export type AddBookFormValues = BasicInfoFormValues &
+  RatingFormValues &
+  ReviewFormValues &
+  QuoteFormValues &
+  VisibilityFormValues

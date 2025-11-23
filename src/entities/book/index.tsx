@@ -1,3 +1,4 @@
+import { Book, BOOK_STATUS_LABELS } from '@/shared/types'
 import {
   Card,
   CardHeader,
@@ -10,8 +11,6 @@ import {
   BookDetails,
   PublishedDate,
 } from './styles'
-import { BOOK_STATUS_LABELS } from '@/shared/types/book'
-import type { Book } from '@/shared/types/book'
 import StatusBadge from '@/shared/ui/statusBadge'
 
 interface BookCardProps {

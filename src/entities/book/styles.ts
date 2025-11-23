@@ -2,15 +2,15 @@ import styled from '@emotion/styled'
 
 export const Card = styled.div`
   background: ${({ theme }) => theme.colors.white};
-  border-radius: 0.75rem;
-  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.1);
+  border-radius: ${({ theme }) => theme.borderRadius.large};
+  box-shadow: ${({ theme }) => theme.shadows.small};
   overflow: hidden;
   transition:
     transform 0.2s,
     box-shadow 0.2s;
   &:hover {
     transform: translateY(-0.125rem);
-    box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.15);
+    box-shadow: ${({ theme }) => theme.shadows.medium};
   }
 `
 
@@ -25,7 +25,7 @@ export const BookCover = styled.div`
   width: 5rem;
   height: 7.5rem;
   background: ${({ theme }) => theme.colors.grayLight};
-  border-radius: 0.375rem;
+  border-radius: ${({ theme }) => theme.borderRadius.medium};
   display: flex;
   align-items: center;
   justify-content: center;
