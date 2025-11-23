@@ -1,12 +1,10 @@
-import { Controller, useFormContext } from 'react-hook-form'
+import { useFormContext } from 'react-hook-form'
 import { AddBookFormValues } from '../types/formTypes'
 import { FormLayout } from '@/shared/ui/formLayout'
-import { FormField } from '@/shared/ui/formField'
-import { Textarea } from '@/shared/ui/textarea'
 import { Button } from '@/shared/ui/button'
-import { hasError } from '@/shared/utils'
 import { useStepNavigationContext } from '../models/StepNavigationContextValue'
 import { FormEvent } from 'react'
+import { RHFTextarea } from '@/shared/ui/formField/rhf'
 
 export const Review = () => {
   const {
@@ -35,30 +33,20 @@ export const Review = () => {
   return (
     <>
       <FormLayout id="review-form" onSubmit={handleSubmit}>
-        <FormField
+        <RHFTextarea
+          control={control}
+          name="review"
+          error={errors.review}
           label="독후감"
           required={showSpecialMessage}
-          errorMessage={errors.review?.message}
           helperMessage={
             showSpecialMessage
               ? '최소 100자 이상 입력해 주세요.'
               : '독후감을 입력해 주세요. (선택사항)'
           }
-        >
-          <Controller
-            name="review"
-            control={control}
-            render={({ field }) => (
-              <Textarea
-                {...field}
-                value={field.value || ''}
-                error={hasError(errors.review)}
-                placeholder="너무 좋은 책이다!"
-                rows={8}
-              />
-            )}
-          />
-        </FormField>
+          rows={8}
+          placeholder="너무 좋은 책이다!"
+        />
       </FormLayout>
 
       <div

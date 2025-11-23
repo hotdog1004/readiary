@@ -1,12 +1,10 @@
-import { Controller, useFormContext } from 'react-hook-form'
+import { useFormContext } from 'react-hook-form'
 import { AddBookFormValues } from '../types/formTypes'
-import { FormField } from '@/shared/ui/formField'
-import { Checkbox } from '@/shared/ui/checkbox'
 import { FormLayout } from '@/shared/ui/formLayout'
 import { Button } from '@/shared/ui/button'
-import { Range } from '@/shared/ui/range'
 import { useStepNavigationContext } from '../models/StepNavigationContextValue'
 import { FormEvent } from 'react'
+import { RHFCheckbox, RHFRange } from '@/shared/ui/formField/rhf'
 
 export const Rating = () => {
   const {
@@ -31,34 +29,26 @@ export const Rating = () => {
   return (
     <>
       <FormLayout id="rating-form" onSubmit={handleSubmit}>
-        <FormField
+        <RHFCheckbox
+          control={control}
+          name="isRecommended"
+          error={errors.isRecommended}
           label="도서 추천 여부"
-          errorMessage={errors.isRecommended?.message}
           helperMessage="이 책을 다른 사람에게 추천하시나요?"
-        >
-          <Controller
-            name="isRecommended"
-            control={control}
-            render={({ field }) => (
-              <Checkbox checked={field.value} onChange={field.onChange} label="추천" />
-            )}
-          />
-        </FormField>
+          checkboxLabel="추천"
+        />
 
-        <FormField
+        <RHFRange
+          control={control}
+          name="rating"
+          error={errors.rating}
           label="별점"
           required
-          errorMessage={errors.rating?.message}
           helperMessage="0.5점 단위로 평가됩니다."
-        >
-          <Controller
-            name="rating"
-            control={control}
-            render={({ field }) => (
-              <Range value={field.value} onChange={field.onChange} min={0} max={5} step={0.5} />
-            )}
-          />
-        </FormField>
+          min={0}
+          max={5}
+          step={0.5}
+        />
       </FormLayout>
 
       <div

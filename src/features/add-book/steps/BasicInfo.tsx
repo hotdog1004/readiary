@@ -1,15 +1,12 @@
-import { Controller, useFormContext } from 'react-hook-form'
+import { useFormContext } from 'react-hook-form'
 import { AddBookFormValues } from '../types/formTypes'
 import { FormLayout, FormRow } from '@/shared/ui/formLayout'
-import { FormField } from '@/shared/ui/formField'
-import { NumberField } from '@/shared/ui/textField'
-import { Select } from '@/shared/ui/select'
 import { Button } from '@/shared/ui/button'
-import { RHFDatePicker, RHFTextField } from '@/shared/ui/formField/rhf'
-import { hasError, isEmptyValue } from '@/shared/utils'
+import { RHFDatePicker, RHFNumberField, RHFTextField } from '@/shared/ui/formField/rhf'
 import { BOOK_STATUS_LABELS, BOOK_STATUS_VALUES } from '@/shared/types'
 import { useStepNavigationContext } from '../models/StepNavigationContextValue'
 import { FormEvent } from 'react'
+import { RHFSelect } from '@/shared/ui/formField/rhf/RHFSelect'
 
 const statusOptions = BOOK_STATUS_VALUES.map((value) => ({
   value,
@@ -83,32 +80,16 @@ export const BasicInfo = () => {
             onTrigger={trigger}
           />
 
-          <Controller
-            name="status"
+          <RHFSelect
             control={control}
-            render={({ field }) => (
-              <FormField
-                label="상태"
-                required
-                errorMessage={errors.status?.message}
-                helperMessage={
-                  isEmptyValue(field.value) && !hasError(errors.status)
-                    ? '독서 상태를 선택해 주세요.'
-                    : undefined
-                }
-              >
-                <Select
-                  error={hasError(errors.status)}
-                  value={field.value}
-                  onChange={(value) => {
-                    field.onChange(value)
-                    trigger()
-                  }}
-                  options={statusOptions}
-                  placeholder="상태를 선택하세요."
-                />
-              </FormField>
-            )}
+            name="status"
+            error={errors.status}
+            label="상태"
+            required
+            helperMessage="독서 상태를 선택해 주세요."
+            options={statusOptions}
+            placeholder="상태를 선택하세요."
+            onTrigger={trigger}
           />
         </FormRow>
         <FormRow>
@@ -133,28 +114,15 @@ export const BasicInfo = () => {
           />
         </FormRow>
         <FormRow>
-          <Controller
-            name="totalPages"
+          <RHFNumberField
             control={control}
-            render={({ field }) => (
-              <FormField
-                label="도서 전체 페이지 수"
-                required
-                errorMessage={errors.totalPages?.message}
-                helperMessage={
-                  isEmptyValue(field.value) && !hasError(errors.totalPages)
-                    ? '전체 페이지 수를 입력해 주세요.'
-                    : undefined
-                }
-              >
-                <NumberField
-                  {...field}
-                  error={hasError(errors.totalPages)}
-                  placeholder="307"
-                  min={1}
-                />
-              </FormField>
-            )}
+            name="totalPages"
+            error={errors.totalPages}
+            label="도서 전체 페이지 수"
+            required
+            helperMessage="전체 페이지 수를 입력해 주세요."
+            placeholder="307"
+            min={1}
           />
         </FormRow>
       </FormLayout>

@@ -1,13 +1,10 @@
-import { Controller, useFormContext } from 'react-hook-form'
+import { useFormContext } from 'react-hook-form'
 import { AddBookFormValues } from '../types/formTypes'
-import { FormField } from '@/shared/ui/formField'
 import { FormLayout } from '@/shared/ui/formLayout'
-import { NumberField } from '@/shared/ui/textField'
-import { Textarea } from '@/shared/ui/textarea'
 import { Button } from '@/shared/ui/button'
-import { hasError } from '@/shared/utils'
 import { useStepNavigationContext } from '../models/StepNavigationContextValue'
 import { FormEvent } from 'react'
+import { RHFNumberField, RHFTextarea } from '@/shared/ui/formField/rhf'
 
 export const Quote = () => {
   const {
@@ -35,41 +32,27 @@ export const Quote = () => {
   return (
     <>
       <FormLayout id="quote-form" onSubmit={handleSubmit}>
-        <FormField
+        <RHFNumberField
+          control={control}
+          name="quotePage"
+          error={errors.quotePage}
           label="인용구 페이지 번호"
           required
-          errorMessage={errors.quotePage?.message}
           helperMessage={`입력 가능 페이지 : 1p - ${totalPages - 1}p`}
-        >
-          <Controller
-            name="quotePage"
-            control={control}
-            render={({ field }) => (
-              <NumberField
-                {...field}
-                error={hasError(errors.quotePage)}
-                placeholder="232"
-                min={1}
-                max={totalPages}
-              />
-            )}
-          />
-        </FormField>
+          placeholder="232"
+          min={1}
+          max={totalPages}
+        />
 
-        <FormField
+        <RHFTextarea
+          control={control}
+          name="quoteText"
+          error={errors.quoteText}
           label="인용구"
           required
-          errorMessage={errors.quoteText?.message}
           helperMessage="책에서 인상 깊었던 문장을 입력해 주세요."
-        >
-          <Controller
-            name="quoteText"
-            control={control}
-            render={({ field }) => (
-              <Textarea {...field} error={hasError(errors.quoteText)} rows={6} />
-            )}
-          />
-        </FormField>
+          rows={6}
+        />
       </FormLayout>
 
       <div

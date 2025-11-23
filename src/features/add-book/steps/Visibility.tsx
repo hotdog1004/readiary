@@ -1,10 +1,9 @@
-import { Controller, useFormContext } from 'react-hook-form'
+import { useFormContext } from 'react-hook-form'
 import { AddBookFormValues } from '../types/formTypes'
 import { FormLayout } from '@/shared/ui/formLayout'
-import { FormField } from '@/shared/ui/formField'
-import { Checkbox } from '@/shared/ui/checkbox'
 import { Button } from '@/shared/ui/button'
 import { useStepNavigationContext } from '../models/StepNavigationContextValue'
+import { RHFCheckbox } from '@/shared/ui/formField/rhf'
 
 export const Visibility = () => {
   const {
@@ -24,20 +23,14 @@ export const Visibility = () => {
   return (
     <>
       <FormLayout id="visibility-form" onSubmit={onSubmit}>
-        <FormField
-          css={{ alignItems: 'center' }}
+        <RHFCheckbox
+          control={control}
+          name="isPublic"
+          error={errors.isPublic}
           label="공개 여부"
-          errorMessage={errors.isPublic?.message}
           helperMessage="체크 시 다른 사용자에게 공개될 수 있어요."
-        >
-          <Controller
-            name="isPublic"
-            control={control}
-            render={({ field }) => (
-              <Checkbox checked={field.value} onChange={field.onChange} label="공개" />
-            )}
-          />
-        </FormField>
+          checkboxLabel="공개"
+        />
       </FormLayout>
 
       <div
