@@ -1,38 +1,29 @@
-import { Controller, useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { VisibilityFormValues } from '../types/formTypes'
-import { VisibilitySchema } from '../schemas'
+import { Controller, useFormContext } from 'react-hook-form'
+import { AddBookFormValues } from '../types/formTypes'
 import { FormLayout } from '@/shared/ui/formLayout'
 import { FormField } from '@/shared/ui/formField'
 import { Checkbox } from '@/shared/ui/checkbox'
 import { Button } from '@/shared/ui/button'
+import { useStepNavigationContext } from '../models/StepNavigationContextValue'
 
-interface VisibilityProps {
-  initialValues?: VisibilityFormValues
-  onComplete: (data: VisibilityFormValues) => void
-  onBack: () => void
-}
-
-export const Visibility = ({ initialValues, onComplete, onBack }: VisibilityProps) => {
+export const Visibility = () => {
   const {
     control,
-    handleSubmit,
     formState: { errors },
-  } = useForm<VisibilityFormValues>({
-    resolver: zodResolver(VisibilitySchema),
-    defaultValues: initialValues || {
-      isPublic: true,
-    },
-    mode: 'onTouched',
-  })
+    trigger,
+    handleSubmit,
+  } = useFormContext<AddBookFormValues>()
 
-  const onSubmit = (data: VisibilityFormValues) => {
-    onComplete(data)
-  }
+  const { onBack } = useStepNavigationContext()
+
+  const onSubmit = handleSubmit((data: AddBookFormValues) => {
+    // TODO: API 호출
+    console.log('최종 제출 데이터:', data)
+  })
 
   return (
     <>
-      <FormLayout id="visibility-form" onSubmit={handleSubmit(onSubmit)}>
+      <FormLayout id="visibility-form" onSubmit={onSubmit}>
         <FormField
           css={{ alignItems: 'center' }}
           label="공개 여부"

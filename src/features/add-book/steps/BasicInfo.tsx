@@ -1,7 +1,5 @@
-import { Controller, useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { BasicInfoFormValues } from '../types/formTypes'
-import { BasicInfoSchema } from '../schemas'
+import { Controller, useFormContext } from 'react-hook-form'
+import { AddBookFormValues } from '../types/formTypes'
 import { FormLayout, FormRow } from '@/shared/ui/formLayout'
 import { FormField } from '@/shared/ui/formField'
 import { NumberField } from '@/shared/ui/textField'
@@ -10,51 +8,48 @@ import { Button } from '@/shared/ui/button'
 import { RHFDatePicker, RHFTextField } from '@/shared/ui/formField/rhf'
 import { hasError, isEmptyValue } from '@/shared/utils'
 import { BOOK_STATUS_LABELS, BOOK_STATUS_VALUES } from '@/shared/types'
-
-interface BasicInfoProps {
-  initialValues?: BasicInfoFormValues //  상위에서 전달받은 이전 값
-  onNext: (data: BasicInfoFormValues) => void
-}
+import { useStepNavigationContext } from '../models/StepNavigationContextValue'
+import { FormEvent } from 'react'
 
 const statusOptions = BOOK_STATUS_VALUES.map((value) => ({
   value,
   label: BOOK_STATUS_LABELS[value],
 }))
 
-export const BasicInfo = ({ initialValues, onNext }: BasicInfoProps) => {
-  /**
-   * - useForm, 상태, 에러, 검증 모두 Step 내부에서만 관리
-   * - 상위는 onComplete로 결과만 받음
-   */
+export const BasicInfo = () => {
   const {
     control,
-    handleSubmit,
     formState: { errors },
     watch,
     trigger,
-  } = useForm<BasicInfoFormValues>({
-    resolver: zodResolver(BasicInfoSchema),
-    // TODO: 폼 데이터 로드 로직을 관리하는 커스텀 훅 구현 후 각 스텝 폼에서 사용하는 방식으로 변경
-    defaultValues: initialValues || {
-      title: '',
-      author: '',
-      status: undefined,
-      startDate: '',
-      endDate: '',
-      totalPages: 0,
-      publishedDate: '',
-    },
-    mode: 'onTouched',
-  })
+  } = useFormContext<AddBookFormValues>()
+
+  const { onNext } = useStepNavigationContext()
 
   const status = watch('status')
 
-  const onSubmit = (data: BasicInfoFormValues) => {
-    onNext(data) // 상위에 결과만 전달
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault()
+
+    const fields: (keyof AddBookFormValues)[] = [
+      'title',
+      'author',
+      'totalPages',
+      'publishedDate',
+      'status',
+      'startDate',
+      'endDate',
+    ]
+
+    const isValid = await trigger(fields)
+    if (isValid) {
+      onNext()
+    }
   }
+
   return (
     <>
-      <FormLayout id="basic-info-form" onSubmit={handleSubmit(onSubmit)}>
+      <FormLayout id="basic-info-form" onSubmit={handleSubmit}>
         <FormRow>
           <RHFTextField
             control={control}

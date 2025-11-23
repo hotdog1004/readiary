@@ -1,41 +1,40 @@
-import { Controller, useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { ReviewFormValues } from '../types/formTypes'
-import { ReviewSchema } from '../schemas'
+import { Controller, useFormContext } from 'react-hook-form'
+import { AddBookFormValues } from '../types/formTypes'
 import { FormLayout } from '@/shared/ui/formLayout'
 import { FormField } from '@/shared/ui/formField'
 import { Textarea } from '@/shared/ui/textarea'
 import { Button } from '@/shared/ui/button'
 import { hasError } from '@/shared/utils'
+import { useStepNavigationContext } from '../models/StepNavigationContextValue'
+import { FormEvent } from 'react'
 
-interface ReviewProps {
-  initialValues?: ReviewFormValues
-  rating: number // 상위에서 전달받음 (별점)
-  onNext: (data: ReviewFormValues) => void
-  onBack: () => void
-}
-
-export const Review = ({ initialValues, rating, onNext, onBack }: ReviewProps) => {
+export const Review = () => {
   const {
     control,
-    handleSubmit,
     formState: { errors },
-  } = useForm<ReviewFormValues>({
-    resolver: zodResolver(ReviewSchema(rating)),
-    defaultValues: initialValues || {
-      review: '',
-    },
-    mode: 'onTouched',
-  })
+    watch,
+    trigger,
+  } = useFormContext<AddBookFormValues>()
 
-  const onSubmit = (data: ReviewFormValues) => {
-    onNext(data)
-  }
+  const { onNext, onBack } = useStepNavigationContext()
+
+  const rating = watch('rating')
   const showSpecialMessage = rating === 1 || rating === 5
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault()
+
+    const fields: (keyof AddBookFormValues)[] = ['review']
+
+    const isValid = await trigger(fields)
+    if (isValid) {
+      onNext()
+    }
+  }
 
   return (
     <>
-      <FormLayout id="review-form" onSubmit={handleSubmit(onSubmit)}>
+      <FormLayout id="review-form" onSubmit={handleSubmit}>
         <FormField
           label="독후감"
           required={showSpecialMessage}

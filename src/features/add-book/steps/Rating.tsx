@@ -1,41 +1,36 @@
-import { Controller, useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { RatingFormValues } from '../types/formTypes'
-import { RatingSchema } from '../schemas'
-import { Select } from '@/shared/ui/select'
+import { Controller, useFormContext } from 'react-hook-form'
+import { AddBookFormValues } from '../types/formTypes'
 import { FormField } from '@/shared/ui/formField'
 import { Checkbox } from '@/shared/ui/checkbox'
 import { FormLayout } from '@/shared/ui/formLayout'
 import { Button } from '@/shared/ui/button'
 import { Range } from '@/shared/ui/range'
+import { useStepNavigationContext } from '../models/StepNavigationContextValue'
+import { FormEvent } from 'react'
 
-interface RatingProps {
-  initialValues?: RatingFormValues
-  onNext: (data: RatingFormValues) => void
-  onBack: () => void
-}
-
-export const Rating = ({ initialValues, onNext, onBack }: RatingProps) => {
+export const Rating = () => {
   const {
     control,
-    handleSubmit,
     formState: { errors },
-  } = useForm<RatingFormValues>({
-    resolver: zodResolver(RatingSchema),
-    defaultValues: initialValues || {
-      isRecommended: false,
-      rating: 0,
-    },
-    mode: 'onTouched',
-  })
+    trigger,
+  } = useFormContext<AddBookFormValues>()
 
-  const onSubmit = (data: RatingFormValues) => {
-    onNext(data)
+  const { onNext, onBack } = useStepNavigationContext()
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault()
+
+    const fields: (keyof AddBookFormValues)[] = ['isRecommended', 'rating']
+
+    const isValid = await trigger(fields)
+    if (isValid) {
+      onNext()
+    }
   }
 
   return (
     <>
-      <FormLayout id="rating-form" onSubmit={handleSubmit(onSubmit)}>
+      <FormLayout id="rating-form" onSubmit={handleSubmit}>
         <FormField
           label="도서 추천 여부"
           errorMessage={errors.isRecommended?.message}

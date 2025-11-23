@@ -1,42 +1,40 @@
-import { Controller, useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { QuoteFormValues } from '../types/formTypes'
-import { QuoteSchema } from '../schemas'
+import { Controller, useFormContext } from 'react-hook-form'
+import { AddBookFormValues } from '../types/formTypes'
 import { FormField } from '@/shared/ui/formField'
 import { FormLayout } from '@/shared/ui/formLayout'
 import { NumberField } from '@/shared/ui/textField'
 import { Textarea } from '@/shared/ui/textarea'
 import { Button } from '@/shared/ui/button'
 import { hasError } from '@/shared/utils'
+import { useStepNavigationContext } from '../models/StepNavigationContextValue'
+import { FormEvent } from 'react'
 
-interface QuoteProps {
-  initialValues?: QuoteFormValues
-  totalPages: number // 도서 전체 페이지 수 (상위에서 전달)
-  onNext: (data: QuoteFormValues) => void // 결과만 상위에 전달
-  onBack: () => void
-}
-
-export const Quote = ({ initialValues, totalPages, onNext, onBack }: QuoteProps) => {
+export const Quote = () => {
   const {
     control,
-    handleSubmit,
     formState: { errors },
-  } = useForm<QuoteFormValues>({
-    resolver: zodResolver(QuoteSchema(totalPages)),
-    defaultValues: initialValues || {
-      quotePage: 0,
-      quoteText: '',
-    },
-    mode: 'onTouched',
-  })
+    watch,
+    trigger,
+  } = useFormContext<AddBookFormValues>()
 
-  const onSubmit = (data: QuoteFormValues) => {
-    onNext(data)
+  const { onNext, onBack } = useStepNavigationContext()
+
+  const totalPages = watch('totalPages')
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault()
+
+    const fields: (keyof AddBookFormValues)[] = ['quotePage', 'quoteText']
+
+    const isValid = await trigger(fields)
+    if (isValid) {
+      onNext()
+    }
   }
 
   return (
     <>
-      <FormLayout id="quote-form" onSubmit={handleSubmit(onSubmit)}>
+      <FormLayout id="quote-form" onSubmit={handleSubmit}>
         <FormField
           label="인용구 페이지 번호"
           required

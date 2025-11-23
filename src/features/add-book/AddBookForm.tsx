@@ -1,111 +1,37 @@
-import { useState } from 'react'
 import { BasicInfo, Quote, Rating, Review, Visibility } from './steps'
-import { FormDataByStep, FormState, Step } from './types'
+import { Step } from './types'
 import { stepConfigs, stepOrder } from './constants'
 import { StepLayout } from '@/shared/ui/stepForm/StepLayout'
 import { SwitchCases } from '@/shared/ui/switchCases'
+import { useAddBookForm } from './hooks/useAddBookForm'
+import { useStepNavigation } from './hooks/useStepNavigation'
+import { FormProvider } from 'react-hook-form'
+import { StepNavigationProvider } from './models/StepNavigationContextValue'
 
 const AddBookForm = () => {
-  const [stepFormState, setStepFormState] = useState<FormState>({
-    step: Step.BasicInfo,
-    formData: {},
-  })
+  const form = useAddBookForm()
+  const stepNavigation = useStepNavigation(Step.BasicInfo)
 
-  const currentIndex = stepOrder.indexOf(stepFormState.step)
-  const currentStepConfig = stepConfigs[stepFormState.step]
-
-  const handleNext = <T extends Step>(stepKey: T, data: FormDataByStep[T]) => {
-    saveStepFormData(stepKey, data)
-
-    if (currentIndex < stepOrder.length - 1) {
-      setStepFormState((prev) => ({
-        ...prev,
-        step: stepOrder[currentIndex + 1],
-      }))
-    }
-  }
-
-  const handleBack = () => {
-    if (currentIndex > 0) {
-      setStepFormState((prev) => ({
-        ...prev,
-        step: stepOrder[currentIndex - 1],
-      }))
-    }
-  }
-
-  const saveStepFormData = <T extends Step>(stepKey: T, data: FormDataByStep[T]) => {
-    setStepFormState((prev) => ({
-      ...prev,
-      formData: { ...prev.formData, [stepKey]: data },
-    }))
-  }
-
-  const handleComplete = <T extends Step>(stepKey: T, data: FormDataByStep[T]) => {
-    saveStepFormData(stepKey, data)
-    handleSubmit()
-  }
-
-  const getFinalPayload = () => {
-    return stepOrder.reduce((finalPayload, stepKey) => {
-      const stepFormData = stepFormState.formData[stepKey]
-      if (stepFormData) {
-        return { ...finalPayload, ...stepFormData }
-      }
-      return finalPayload
-    }, {})
-  }
-
-  const handleSubmit = () => {
-    const finalPayload = getFinalPayload()
-    // TODO: API 호출
-    console.log('최종 제출 데이터:', finalPayload)
-  }
+  const currentStepConfig = stepConfigs[stepNavigation.currentStep]
 
   return (
-    <StepLayout title={currentStepConfig.title} description={currentStepConfig.description}>
-      <SwitchCases
-        value={stepFormState.step}
-        cases={{
-          [Step.BasicInfo]: (
-            <BasicInfo
-              initialValues={stepFormState.formData[Step.BasicInfo]}
-              onNext={(data) => handleNext(Step.BasicInfo, data)}
-            />
-          ),
-          [Step.Rating]: (
-            <Rating
-              initialValues={stepFormState.formData[Step.Rating]}
-              onNext={(data) => handleNext(Step.Rating, data)}
-              onBack={handleBack}
-            />
-          ),
-          [Step.Review]: (
-            <Review
-              initialValues={stepFormState.formData[Step.Review]}
-              rating={stepFormState.formData[Step.Rating]?.rating ?? 0}
-              onNext={(data) => handleNext(Step.Review, data)}
-              onBack={handleBack}
-            />
-          ),
-          [Step.Quote]: (
-            <Quote
-              initialValues={stepFormState.formData[Step.Quote]}
-              totalPages={stepFormState.formData[Step.BasicInfo]?.totalPages ?? 1}
-              onNext={(data) => handleNext(Step.Quote, data)}
-              onBack={handleBack}
-            />
-          ),
-          [Step.Visibility]: (
-            <Visibility
-              initialValues={stepFormState.formData[Step.Visibility]}
-              onComplete={(data) => handleComplete(Step.Visibility, data)}
-              onBack={handleBack}
-            />
-          ),
-        }}
-      />
-    </StepLayout>
+    <FormProvider {...form}>
+      <StepNavigationProvider value={stepNavigation}>
+        <StepLayout title={currentStepConfig.title} description={currentStepConfig.description}>
+          <SwitchCases
+            value={stepNavigation.currentStep}
+            cases={{
+              [Step.BasicInfo]: <BasicInfo />,
+              [Step.Rating]: <Rating />,
+              [Step.Review]: <Review />,
+              [Step.Quote]: <Quote />,
+              [Step.Visibility]: <Visibility />,
+            }}
+          />
+        </StepLayout>
+      </StepNavigationProvider>
+    </FormProvider>
   )
 }
+
 export default AddBookForm

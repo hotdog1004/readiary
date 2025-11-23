@@ -1,5 +1,4 @@
 import { BookStatus } from '@/shared/types'
-import { Step } from './step'
 
 export type BasicInfoFormValues = {
   title: string
@@ -26,14 +25,8 @@ export type VisibilityFormValues = {
   isPublic: boolean
 }
 
-export type FormDataByStep = {
-  [Step.BasicInfo]: BasicInfoFormValues
-  [Step.Rating]: RatingFormValues
-  [Step.Review]: ReviewFormValues
-  [Step.Quote]: QuoteFormValues
-  [Step.Visibility]: VisibilityFormValues
-}
-export type FormState = {
-  step: Step
-  formData: Partial<FormDataByStep>
-}
+export type AddBookFormValues = BasicInfoFormValues &
+  RatingFormValues &
+  ReviewFormValues &
+  QuoteFormValues &
+  VisibilityFormValues
