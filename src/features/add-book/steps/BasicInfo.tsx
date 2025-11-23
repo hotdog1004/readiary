@@ -4,9 +4,9 @@ import { FormLayout, FormRow } from '@/shared/ui/formLayout'
 import { Button } from '@/shared/ui/button'
 import { RHFDatePicker, RHFNumberField, RHFTextField } from '@/shared/ui/formField/rhf'
 import { BOOK_STATUS_LABELS, BOOK_STATUS_VALUES } from '@/shared/types'
-import { useStepNavigationContext } from '../models/StepNavigationContextValue'
 import { FormEvent } from 'react'
 import { RHFSelect } from '@/shared/ui/formField/rhf/RHFSelect'
+import { useStepNavigation } from '../hooks/useStepNavigation'
 
 const statusOptions = BOOK_STATUS_VALUES.map((value) => ({
   value,
@@ -21,8 +21,7 @@ export const BasicInfo = () => {
     trigger,
   } = useFormContext<AddBookFormValues>()
 
-  const { onNext } = useStepNavigationContext()
-
+  const { onNext } = useStepNavigation()
   const status = watch('status')
 
   const handleSubmit = async (e: FormEvent) => {

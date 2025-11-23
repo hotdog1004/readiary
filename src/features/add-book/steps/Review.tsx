@@ -2,9 +2,9 @@ import { useFormContext } from 'react-hook-form'
 import { AddBookFormValues } from '../types/formTypes'
 import { FormLayout } from '@/shared/ui/formLayout'
 import { Button } from '@/shared/ui/button'
-import { useStepNavigationContext } from '../models/StepNavigationContextValue'
 import { FormEvent } from 'react'
 import { RHFTextarea } from '@/shared/ui/formField/rhf'
+import { useStepNavigation } from '../hooks/useStepNavigation'
 
 export const Review = () => {
   const {
@@ -14,7 +14,7 @@ export const Review = () => {
     trigger,
   } = useFormContext<AddBookFormValues>()
 
-  const { onNext, onBack } = useStepNavigationContext()
+  const { onNext, onBack } = useStepNavigation()
 
   const rating = watch('rating')
   const showSpecialMessage = rating === 1 || rating === 5

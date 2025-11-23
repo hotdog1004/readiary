@@ -2,9 +2,9 @@ import { useFormContext } from 'react-hook-form'
 import { AddBookFormValues } from '../types/formTypes'
 import { FormLayout } from '@/shared/ui/formLayout'
 import { Button } from '@/shared/ui/button'
-import { useStepNavigationContext } from '../models/StepNavigationContextValue'
 import { FormEvent } from 'react'
 import { RHFNumberField, RHFTextarea } from '@/shared/ui/formField/rhf'
+import { useStepNavigation } from '../hooks/useStepNavigation'
 
 export const Quote = () => {
   const {
@@ -14,7 +14,7 @@ export const Quote = () => {
     trigger,
   } = useFormContext<AddBookFormValues>()
 
-  const { onNext, onBack } = useStepNavigationContext()
+  const { onNext, onBack } = useStepNavigation()
 
   const totalPages = watch('totalPages')
 

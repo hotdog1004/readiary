@@ -4,8 +4,8 @@ import { ReviewBaseSchema } from './reviewSchema'
 import { QuoteBaseSchema } from './quoteSchema'
 import { validateStatusRules, validateDateRules } from '../utils'
 import { BasicInfoFormValues } from '../types'
-import { RatingSchema } from '.'
-import { VisibilitySchema } from '.'
+import { RatingSchema } from './ratingSchema'
+import { VisibilitySchema } from './visibilitySchema'
 
 export const AddBookSchema = z
   .object({

@@ -1,35 +1,34 @@
 import { BasicInfo, Quote, Rating, Review, Visibility } from './steps'
 import { Step } from './types'
-import { stepConfigs, stepOrder } from './constants'
+import { stepConfigs } from './constants'
 import { StepLayout } from '@/shared/ui/stepForm/StepLayout'
 import { SwitchCases } from '@/shared/ui/switchCases'
 import { useAddBookForm } from './hooks/useAddBookForm'
-import { useStepNavigation } from './hooks/useStepNavigation'
 import { FormProvider } from 'react-hook-form'
-import { StepNavigationProvider } from './models/StepNavigationContextValue'
+import { useRouter } from 'next/router'
+import { getCurrentStep } from './utils/step/stepNavigation'
 
 const AddBookForm = () => {
   const form = useAddBookForm()
-  const stepNavigation = useStepNavigation(Step.BasicInfo)
+  const router = useRouter()
 
-  const currentStepConfig = stepConfigs[stepNavigation.currentStep]
+  const currentStep = getCurrentStep(router.query)
+  const currentStepConfig = stepConfigs[currentStep]
 
   return (
     <FormProvider {...form}>
-      <StepNavigationProvider value={stepNavigation}>
-        <StepLayout title={currentStepConfig.title} description={currentStepConfig.description}>
-          <SwitchCases
-            value={stepNavigation.currentStep}
-            cases={{
-              [Step.BasicInfo]: <BasicInfo />,
-              [Step.Rating]: <Rating />,
-              [Step.Review]: <Review />,
-              [Step.Quote]: <Quote />,
-              [Step.Visibility]: <Visibility />,
-            }}
-          />
-        </StepLayout>
-      </StepNavigationProvider>
+      <StepLayout title={currentStepConfig.title} description={currentStepConfig.description}>
+        <SwitchCases
+          value={currentStep}
+          cases={{
+            [Step.BasicInfo]: <BasicInfo />,
+            [Step.Rating]: <Rating />,
+            [Step.Review]: <Review />,
+            [Step.Quote]: <Quote />,
+            [Step.Visibility]: <Visibility />,
+          }}
+        />
+      </StepLayout>
     </FormProvider>
   )
 }

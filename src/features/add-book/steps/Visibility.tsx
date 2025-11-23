@@ -2,8 +2,8 @@ import { useFormContext } from 'react-hook-form'
 import { AddBookFormValues } from '../types/formTypes'
 import { FormLayout } from '@/shared/ui/formLayout'
 import { Button } from '@/shared/ui/button'
-import { useStepNavigationContext } from '../models/StepNavigationContextValue'
 import { RHFCheckbox } from '@/shared/ui/formField/rhf'
+import { useStepNavigation } from '../hooks/useStepNavigation'
 
 export const Visibility = () => {
   const {
@@ -13,7 +13,7 @@ export const Visibility = () => {
     handleSubmit,
   } = useFormContext<AddBookFormValues>()
 
-  const { onBack } = useStepNavigationContext()
+  const { onBack } = useStepNavigation()
 
   const onSubmit = handleSubmit((data: AddBookFormValues) => {
     // TODO: API 호출

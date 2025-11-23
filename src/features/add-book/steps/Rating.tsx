@@ -2,9 +2,9 @@ import { useFormContext } from 'react-hook-form'
 import { AddBookFormValues } from '../types/formTypes'
 import { FormLayout } from '@/shared/ui/formLayout'
 import { Button } from '@/shared/ui/button'
-import { useStepNavigationContext } from '../models/StepNavigationContextValue'
 import { FormEvent } from 'react'
 import { RHFCheckbox, RHFRange } from '@/shared/ui/formField/rhf'
+import { useStepNavigation } from '../hooks/useStepNavigation'
 
 export const Rating = () => {
   const {
@@ -13,7 +13,7 @@ export const Rating = () => {
     trigger,
   } = useFormContext<AddBookFormValues>()
 
-  const { onNext, onBack } = useStepNavigationContext()
+  const { onNext, onBack } = useStepNavigation()
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
